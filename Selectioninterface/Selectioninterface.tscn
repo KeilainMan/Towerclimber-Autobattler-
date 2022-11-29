@@ -1,0 +1,230 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Gameboard/boardpiece_blank.png" type="Texture" id=1]
+[ext_resource path="res://Selectioninterface/Selectioninterface.gd" type="Script" id=2]
+[ext_resource path="res://assets/Testassets_Knight/FreeKnight_v1/Colour1/NoOutline/120x80_PNGSheets/_Idle.png" type="Texture" id=3]
+[ext_resource path="res://assets/Testassets_Archer/Ranger Base/Ranger Base/Spritesheets/Single Animation/Ranger Shoot.png" type="Texture" id=4]
+[ext_resource path="res://assets/unitblank/blank_128x.png" type="Texture" id=5]
+[ext_resource path="res://assets/UI_assets/healthbar/progress.png" type="Texture" id=6]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 960.5, 29.5 )
+
+[node name="Selectioninterface" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TopSpacer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BottomUI" type="MarginContainer" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 680.0
+margin_top = -180.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="BottomUI"]
+margin_right = 1240.0
+margin_bottom = 180.0
+follow_focus = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BottomUI/ScrollContainer"]
+margin_right = 1652.0
+margin_bottom = 180.0
+
+[node name="TextureRect" type="TextureRect" parent="BottomUI/ScrollContainer/HBoxContainer"]
+margin_right = 180.0
+margin_bottom = 180.0
+rect_min_size = Vector2( 180, 180 )
+texture = ExtResource( 3 )
+expand = true
+
+[node name="Warrior" type="Button" parent="BottomUI/ScrollContainer/HBoxContainer/TextureRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect2" type="TextureRect" parent="BottomUI/ScrollContainer/HBoxContainer"]
+margin_left = 184.0
+margin_right = 364.0
+margin_bottom = 180.0
+rect_min_size = Vector2( 180, 180 )
+texture = ExtResource( 4 )
+expand = true
+
+[node name="Archer" type="Button" parent="BottomUI/ScrollContainer/HBoxContainer/TextureRect2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect3" type="TextureRect" parent="BottomUI/ScrollContainer/HBoxContainer"]
+margin_left = 368.0
+margin_right = 548.0
+margin_bottom = 180.0
+rect_min_size = Vector2( 180, 180 )
+texture = ExtResource( 5 )
+expand = true
+
+[node name="Golem" type="Button" parent="BottomUI/ScrollContainer/HBoxContainer/TextureRect3"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect4" type="TextureRect" parent="BottomUI/ScrollContainer/HBoxContainer"]
+margin_left = 552.0
+margin_right = 732.0
+margin_bottom = 180.0
+rect_min_size = Vector2( 180, 180 )
+texture = ExtResource( 1 )
+expand = true
+
+[node name="Button" type="Button" parent="BottomUI/ScrollContainer/HBoxContainer/TextureRect4"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect5" type="TextureRect" parent="BottomUI/ScrollContainer/HBoxContainer"]
+margin_left = 736.0
+margin_right = 916.0
+margin_bottom = 180.0
+rect_min_size = Vector2( 180, 180 )
+texture = ExtResource( 1 )
+expand = true
+
+[node name="Button" type="Button" parent="BottomUI/ScrollContainer/HBoxContainer/TextureRect5"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect6" type="TextureRect" parent="BottomUI/ScrollContainer/HBoxContainer"]
+margin_left = 920.0
+margin_right = 1100.0
+margin_bottom = 180.0
+rect_min_size = Vector2( 180, 180 )
+texture = ExtResource( 1 )
+expand = true
+
+[node name="Button" type="Button" parent="BottomUI/ScrollContainer/HBoxContainer/TextureRect6"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect7" type="TextureRect" parent="BottomUI/ScrollContainer/HBoxContainer"]
+margin_left = 1104.0
+margin_right = 1284.0
+margin_bottom = 180.0
+rect_min_size = Vector2( 180, 180 )
+texture = ExtResource( 1 )
+expand = true
+
+[node name="Button" type="Button" parent="BottomUI/ScrollContainer/HBoxContainer/TextureRect7"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect8" type="TextureRect" parent="BottomUI/ScrollContainer/HBoxContainer"]
+margin_left = 1288.0
+margin_right = 1468.0
+margin_bottom = 180.0
+rect_min_size = Vector2( 180, 180 )
+texture = ExtResource( 1 )
+expand = true
+
+[node name="Button" type="Button" parent="BottomUI/ScrollContainer/HBoxContainer/TextureRect8"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect9" type="TextureRect" parent="BottomUI/ScrollContainer/HBoxContainer"]
+margin_left = 1472.0
+margin_right = 1652.0
+margin_bottom = 180.0
+rect_min_size = Vector2( 180, 180 )
+texture = ExtResource( 1 )
+expand = true
+
+[node name="Button" type="Button" parent="BottomUI/ScrollContainer/HBoxContainer/TextureRect9"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Mousedetector" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Mousedetector"]
+position = Vector2( 960.5, 870.5 )
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="Mousedetector"]
+modulate = Color( 0.517647, 0.231373, 0.0235294, 1 )
+position = Vector2( 960, 870.5 )
+scale = Vector2( 19.75, 4.1875 )
+texture = ExtResource( 6 )
+
+[node name="Tween" type="Tween" parent="."]
+
+[connection signal="pressed" from="BottomUI/ScrollContainer/HBoxContainer/TextureRect/Warrior" to="." method="_on_Warrior_pressed"]
+[connection signal="pressed" from="BottomUI/ScrollContainer/HBoxContainer/TextureRect2/Archer" to="." method="_on_Archer_pressed"]
+[connection signal="pressed" from="BottomUI/ScrollContainer/HBoxContainer/TextureRect3/Golem" to="." method="_on_Golem_pressed"]
+[connection signal="mouse_entered" from="Mousedetector" to="." method="_on_Mousedetector_mouse_entered"]
+[connection signal="mouse_exited" from="Mousedetector" to="." method="_on_Mousedetector_mouse_exited"]

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://Units/Unit_Stats.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+health = 0
+meele_damage = 0
+range_damage = 0
+ranged = false
+attack_range = 0.0
+attack_speed = 0.0
+movement_speed = 0
+armor = 0
+unit_value = 0

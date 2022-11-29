@@ -1,0 +1,59 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets/UI_assets/healthbar/progress.png" type="Texture" id=2]
+[ext_resource path="res://Selectioninterface/Selectioninterface.gd" type="Script" id=5]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 960.5, 29.5 )
+
+[node name="Selectioninterface" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TopSpacer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BottomUI" type="MarginContainer" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 680.0
+margin_top = -180.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="BottomUI"]
+margin_right = 1240.0
+margin_bottom = 180.0
+follow_focus = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BottomUI/ScrollContainer"]
+
+[node name="Mousedetector" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Mousedetector"]
+position = Vector2( 960.5, 870.5 )
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="Mousedetector"]
+modulate = Color( 0.517647, 0.231373, 0.0235294, 1 )
+position = Vector2( 960, 870.5 )
+scale = Vector2( 19.75, 4.1875 )
+texture = ExtResource( 2 )
+
+[node name="Tween" type="Tween" parent="."]
+
+[connection signal="mouse_entered" from="Mousedetector" to="." method="_on_Mousedetector_mouse_entered"]

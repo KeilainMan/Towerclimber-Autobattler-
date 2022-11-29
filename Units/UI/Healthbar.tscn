@@ -1,0 +1,55 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Units/UI/Healthbar.gd" type="Script" id=1]
+[ext_resource path="res://assets/UI_assets/healthbar/progress.png" type="Texture" id=2]
+[ext_resource path="res://assets/UI_assets/healthbar/bg.png" type="Texture" id=3]
+[ext_resource path="res://assets/UI_assets/healthbar/border.png" type="Texture" id=4]
+
+[node name="Control" type="Control"]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HealthbarUnder" type="TextureProgress" parent="."]
+margin_right = 89.0
+margin_bottom = 14.0
+texture_under = ExtResource( 3 )
+texture_progress = ExtResource( 2 )
+tint_progress = Color( 1, 0.352941, 0, 1 )
+nine_patch_stretch = true
+stretch_margin_left = 1
+stretch_margin_top = 1
+stretch_margin_right = 1
+stretch_margin_bottom = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HealthbarOver" type="TextureProgress" parent="."]
+margin_right = 89.0
+margin_bottom = 14.0
+value = 50.0
+texture_over = ExtResource( 4 )
+texture_progress = ExtResource( 2 )
+tint_progress = Color( 1, 0, 0, 1 )
+nine_patch_stretch = true
+stretch_margin_left = 1
+stretch_margin_top = 1
+stretch_margin_right = 1
+stretch_margin_bottom = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="update_tween" type="Tween" parent="."]
+
+[node name="Despawntimer" type="Timer" parent="."]
+wait_time = 3.0
+
+[node name="despawn_tween" type="Tween" parent="."]
+
+[connection signal="visibility_changed" from="HealthbarOver" to="." method="_on_Healthbar_visibility_changed"]
+[connection signal="timeout" from="Despawntimer" to="." method="_on_Despawntimer_timeout"]

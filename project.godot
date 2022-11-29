@@ -1,0 +1,77 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Node2D",
+"class": "Levelbase",
+"language": "GDScript",
+"path": "res://Levels/Levelbase.gd"
+}, {
+"base": "Node",
+"class": "Levelconstructor",
+"language": "GDScript",
+"path": "res://GlobalsScripts/Level_Constructor.gd"
+}, {
+"base": "Resource",
+"class": "Unit_Stats",
+"language": "GDScript",
+"path": "res://Units/Unit_Stats.gd"
+}, {
+"base": "KinematicBody2D",
+"class": "Unitbase",
+"language": "GDScript",
+"path": "res://Units/Unitbase.gd"
+} ]
+_global_script_class_icons={
+"Levelbase": "",
+"Levelconstructor": "",
+"Unit_Stats": "",
+"Unitbase": ""
+}
+
+[application]
+
+config/name="Towerclimber (based on Autobattler)"
+config/icon="res://icon.png"
+
+[autoload]
+
+PartyManager="*res://GlobalsScripts/PartyManager.gd"
+RunManager="*res://GlobalsScripts/RunManager.gd"
+LevelConstructor="*res://GlobalsScripts/Level_Constructor.gd"
+Signals="*res://GlobalsScripts/Signals.gd"
+
+[display]
+
+window/size/width=1920
+window/size/height=1080
+window/stretch/mode="viewport"
+window/stretch/aspect="expand"
+
+[input]
+
+mouse_button_left={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+mouse_button_right={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":2,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+
+[physics]
+
+common/enable_pause_aware_picking=true
+
+[rendering]
+
+environment/default_environment="res://default_env.tres"

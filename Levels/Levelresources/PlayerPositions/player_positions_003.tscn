@@ -1,0 +1,317 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Gameboard/boardtile_new.tscn" type="PackedScene" id=1]
+
+[node name="Tiles" type="Node"]
+
+[node name="boardtile" parent="." instance=ExtResource( 1 )]
+position = Vector2( 128, 112 )
+
+[node name="boardtile2" parent="." instance=ExtResource( 1 )]
+position = Vector2( 320, 112 )
+
+[node name="boardtile3" parent="." instance=ExtResource( 1 )]
+position = Vector2( 224, 208 )
+
+[node name="boardtile4" parent="." instance=ExtResource( 1 )]
+position = Vector2( 224, 112 )
+
+[node name="boardtile5" parent="." instance=ExtResource( 1 )]
+position = Vector2( 128, 208 )
+
+[node name="boardtile6" parent="." instance=ExtResource( 1 )]
+position = Vector2( 320, 208 )
+
+[node name="boardtile7" parent="." instance=ExtResource( 1 )]
+position = Vector2( 128, 304 )
+
+[node name="boardtile8" parent="." instance=ExtResource( 1 )]
+position = Vector2( 320, 304 )
+
+[node name="boardtile9" parent="." instance=ExtResource( 1 )]
+position = Vector2( 224, 400 )
+
+[node name="boardtile10" parent="." instance=ExtResource( 1 )]
+position = Vector2( 224, 304 )
+
+[node name="boardtile11" parent="." instance=ExtResource( 1 )]
+position = Vector2( 128, 400 )
+
+[node name="boardtile12" parent="." instance=ExtResource( 1 )]
+position = Vector2( 320, 400 )
+
+[node name="boardtile13" parent="." instance=ExtResource( 1 )]
+position = Vector2( 128, 496 )
+
+[node name="boardtile14" parent="." instance=ExtResource( 1 )]
+position = Vector2( 320, 496 )
+
+[node name="boardtile15" parent="." instance=ExtResource( 1 )]
+position = Vector2( 224, 592 )
+
+[node name="boardtile16" parent="." instance=ExtResource( 1 )]
+position = Vector2( 224, 496 )
+
+[node name="boardtile17" parent="." instance=ExtResource( 1 )]
+position = Vector2( 128, 592 )
+
+[node name="boardtile18" parent="." instance=ExtResource( 1 )]
+position = Vector2( 320, 592 )
+
+[node name="boardtile19" parent="." instance=ExtResource( 1 )]
+position = Vector2( 704, 112 )
+
+[node name="boardtile23" parent="." instance=ExtResource( 1 )]
+position = Vector2( 704, 208 )
+
+[node name="boardtile37" parent="." instance=ExtResource( 1 )]
+position = Vector2( 416, 112 )
+
+[node name="boardtile38" parent="." instance=ExtResource( 1 )]
+position = Vector2( 608, 112 )
+
+[node name="boardtile39" parent="." instance=ExtResource( 1 )]
+position = Vector2( 512, 208 )
+
+[node name="boardtile40" parent="." instance=ExtResource( 1 )]
+position = Vector2( 512, 112 )
+
+[node name="boardtile41" parent="." instance=ExtResource( 1 )]
+position = Vector2( 416, 208 )
+
+[node name="boardtile42" parent="." instance=ExtResource( 1 )]
+position = Vector2( 608, 208 )
+
+[node name="boardtile43" parent="." instance=ExtResource( 1 )]
+position = Vector2( 416, 304 )
+
+[node name="boardtile47" parent="." instance=ExtResource( 1 )]
+position = Vector2( 416, 400 )
+
+[node name="boardtile49" parent="." instance=ExtResource( 1 )]
+position = Vector2( 416, 496 )
+
+[node name="boardtile53" parent="." instance=ExtResource( 1 )]
+position = Vector2( 416, 592 )
+
+[node name="boardtile55" parent="." instance=ExtResource( 1 )]
+position = Vector2( 128, 688 )
+
+[node name="boardtile56" parent="." instance=ExtResource( 1 )]
+position = Vector2( 320, 688 )
+
+[node name="boardtile57" parent="." instance=ExtResource( 1 )]
+position = Vector2( 224, 784 )
+
+[node name="boardtile58" parent="." instance=ExtResource( 1 )]
+position = Vector2( 224, 688 )
+
+[node name="boardtile59" parent="." instance=ExtResource( 1 )]
+position = Vector2( 128, 784 )
+
+[node name="boardtile60" parent="." instance=ExtResource( 1 )]
+position = Vector2( 320, 784 )
+
+[node name="boardtile61" parent="." instance=ExtResource( 1 )]
+position = Vector2( 128, 880 )
+
+[node name="boardtile62" parent="." instance=ExtResource( 1 )]
+position = Vector2( 320, 880 )
+
+[node name="boardtile63" parent="." instance=ExtResource( 1 )]
+position = Vector2( 224, 976 )
+
+[node name="boardtile64" parent="." instance=ExtResource( 1 )]
+position = Vector2( 224, 880 )
+
+[node name="boardtile65" parent="." instance=ExtResource( 1 )]
+position = Vector2( 128, 976 )
+
+[node name="boardtile66" parent="." instance=ExtResource( 1 )]
+position = Vector2( 320, 976 )
+
+[node name="boardtile73" parent="." instance=ExtResource( 1 )]
+position = Vector2( 704, 880 )
+
+[node name="boardtile77" parent="." instance=ExtResource( 1 )]
+position = Vector2( 704, 976 )
+
+[node name="boardtile79" parent="." instance=ExtResource( 1 )]
+position = Vector2( 416, 688 )
+
+[node name="boardtile83" parent="." instance=ExtResource( 1 )]
+position = Vector2( 416, 784 )
+
+[node name="boardtile85" parent="." instance=ExtResource( 1 )]
+position = Vector2( 416, 880 )
+
+[node name="boardtile86" parent="." instance=ExtResource( 1 )]
+position = Vector2( 608, 880 )
+
+[node name="boardtile87" parent="." instance=ExtResource( 1 )]
+position = Vector2( 512, 976 )
+
+[node name="boardtile88" parent="." instance=ExtResource( 1 )]
+position = Vector2( 512, 880 )
+
+[node name="boardtile89" parent="." instance=ExtResource( 1 )]
+position = Vector2( 416, 976 )
+
+[node name="boardtile90" parent="." instance=ExtResource( 1 )]
+position = Vector2( 608, 976 )
+
+[node name="boardtile92" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1216, 112 )
+
+[node name="boardtile96" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1216, 208 )
+
+[node name="boardtile109" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1600, 112 )
+
+[node name="boardtile110" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1792, 112 )
+
+[node name="boardtile111" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1696, 208 )
+
+[node name="boardtile112" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1696, 112 )
+
+[node name="boardtile113" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1600, 208 )
+
+[node name="boardtile114" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1792, 208 )
+
+[node name="boardtile115" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1600, 304 )
+
+[node name="boardtile116" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1792, 304 )
+
+[node name="boardtile117" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1696, 400 )
+
+[node name="boardtile118" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1696, 304 )
+
+[node name="boardtile119" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1600, 400 )
+
+[node name="boardtile120" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1792, 400 )
+
+[node name="boardtile121" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1600, 496 )
+
+[node name="boardtile122" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1792, 496 )
+
+[node name="boardtile123" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1696, 592 )
+
+[node name="boardtile124" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1696, 496 )
+
+[node name="boardtile125" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1600, 592 )
+
+[node name="boardtile126" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1792, 592 )
+
+[node name="boardtile127" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1312, 112 )
+
+[node name="boardtile128" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1504, 112 )
+
+[node name="boardtile129" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1408, 208 )
+
+[node name="boardtile130" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1408, 112 )
+
+[node name="boardtile131" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1312, 208 )
+
+[node name="boardtile132" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1504, 208 )
+
+[node name="boardtile134" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1504, 304 )
+
+[node name="boardtile138" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1504, 400 )
+
+[node name="boardtile140" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1504, 496 )
+
+[node name="boardtile144" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1504, 592 )
+
+[node name="boardtile152" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1216, 880 )
+
+[node name="boardtile156" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1216, 976 )
+
+[node name="boardtile157" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1600, 688 )
+
+[node name="boardtile158" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1792, 688 )
+
+[node name="boardtile159" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1696, 784 )
+
+[node name="boardtile160" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1696, 688 )
+
+[node name="boardtile161" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1600, 784 )
+
+[node name="boardtile162" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1792, 784 )
+
+[node name="boardtile163" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1600, 880 )
+
+[node name="boardtile164" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1792, 880 )
+
+[node name="boardtile165" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1696, 976 )
+
+[node name="boardtile166" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1696, 880 )
+
+[node name="boardtile167" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1600, 976 )
+
+[node name="boardtile168" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1792, 976 )
+
+[node name="boardtile170" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1504, 688 )
+
+[node name="boardtile174" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1504, 784 )
+
+[node name="boardtile175" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1312, 880 )
+
+[node name="boardtile176" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1504, 880 )
+
+[node name="boardtile177" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1408, 976 )
+
+[node name="boardtile178" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1408, 880 )
+
+[node name="boardtile179" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1312, 976 )
+
+[node name="boardtile180" parent="." instance=ExtResource( 1 )]
+position = Vector2( 1504, 976 )

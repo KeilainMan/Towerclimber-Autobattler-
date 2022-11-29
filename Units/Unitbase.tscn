@@ -1,0 +1,222 @@
+[gd_scene load_steps=33 format=2]
+
+[ext_resource path="res://assets/unitblank/blank_128x.png" type="Texture" id=1]
+[ext_resource path="res://Units/UI/Manabar.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Units/Unitbase.gd" type="Script" id=7]
+[ext_resource path="res://Units/UI/Healthbar.tscn" type="PackedScene" id=8]
+
+[sub_resource type="AtlasTexture" id=83]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=84]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 32, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=85]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 64, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=86]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 96, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=87]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=88]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 32, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=89]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 64, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=90]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 96, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=91]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=92]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 32, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=93]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 64, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=94]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 96, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=79]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=80]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 32, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=81]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 64, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=82]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 96, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=54]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=55]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 64, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=56]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 0, 64, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=57]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 64, 64, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=70]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=71]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 64, 0, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=72]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 0, 64, 64, 64 )
+
+[sub_resource type="AtlasTexture" id=73]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 64, 64, 64, 64 )
+
+[sub_resource type="SpriteFrames" id=51]
+resource_local_to_scene = true
+animations = [ {
+"frames": [ SubResource( 83 ), SubResource( 84 ), SubResource( 85 ), SubResource( 86 ) ],
+"loop": true,
+"name": "Idle",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 87 ), SubResource( 88 ), SubResource( 89 ), SubResource( 90 ) ],
+"loop": false,
+"name": "Death",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 91 ), SubResource( 92 ), SubResource( 93 ), SubResource( 94 ) ],
+"loop": false,
+"name": "Attack_1",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 79 ), SubResource( 80 ), SubResource( 81 ), SubResource( 82 ) ],
+"loop": true,
+"name": "Moving",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 54 ), SubResource( 55 ), SubResource( 56 ), SubResource( 57 ) ],
+"loop": false,
+"name": "Attackcombination",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 70 ), SubResource( 71 ), SubResource( 72 ), SubResource( 73 ) ],
+"loop": false,
+"name": "Attack_2",
+"speed": 5.0
+} ]
+
+[sub_resource type="CapsuleShape2D" id=52]
+radius = 16.0
+height = 2.0
+
+[sub_resource type="CircleShape2D" id=53]
+radius = 50.0
+
+[sub_resource type="CapsuleShape2D" id=78]
+radius = 16.0
+height = 16.0
+
+[node name="Unitbase" type="KinematicBody2D"]
+script = ExtResource( 7 )
+
+[node name="CharacterAnimations" type="AnimatedSprite" parent="."]
+position = Vector2( 4, -21 )
+frames = SubResource( 51 )
+animation = "Idle"
+frame = 1
+speed_scale = 2.0
+playing = true
+
+[node name="Charactercollision" type="CollisionShape2D" parent="."]
+shape = SubResource( 52 )
+
+[node name="AttackcooldownTimer" type="Timer" parent="."]
+
+[node name="Healthbar" parent="." instance=ExtResource( 8 )]
+margin_left = -14.0
+margin_top = -23.0
+margin_right = 11.0
+margin_bottom = -20.0
+
+[node name="HealthbarUnder" parent="Healthbar" index="0"]
+margin_right = 26.0
+margin_bottom = 3.0
+
+[node name="HealthbarOver" parent="Healthbar" index="1"]
+margin_right = 26.0
+margin_bottom = 3.0
+
+[node name="Manabar" parent="." instance=ExtResource( 2 )]
+
+[node name="CollisionArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionArea"]
+shape = SubResource( 53 )
+
+[node name="Shopdetector" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shopdetector"]
+position = Vector2( 5, -11 )
+shape = SubResource( 78 )
+
+[connection signal="animation_finished" from="CharacterAnimations" to="." method="_on_CharacterAnimations_animation_finished"]
+[connection signal="timeout" from="AttackcooldownTimer" to="." method="_on_AttackcooldownTimer_timeout"]
+[connection signal="body_entered" from="CollisionArea" to="." method="_on_CollisionArea_body_entered"]
+[connection signal="body_exited" from="CollisionArea" to="." method="_on_CollisionArea_body_exited"]
+[connection signal="mouse_entered" from="Shopdetector" to="." method="_on_Shopdetector_mouse_entered"]
+
+[editable path="Healthbar"]

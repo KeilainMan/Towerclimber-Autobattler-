@@ -1,0 +1,19 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://Units/Unit_Stats.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+health = 350
+meele_damage = 15
+range_damage = 0
+ranged = false
+attack_range = 50.0
+attack_speed = 0.35
+movement_speed = 50
+armor = 10
+starting_mana = 50
+maximum_mana = 100
+relative_positions = [ Vector2( 0, 0 ), Vector2( -128, 0 ), Vector2( -128, -128 ), Vector2( 0, -128 ) ]
+traits = [ "Golem", "Hard" ]
+unit_value = 5
