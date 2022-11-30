@@ -1,16 +1,10 @@
 extends Unitbase
 
-
-
 onready var golem_resource = load("res://Units/Golem.tres")
-
-
-
 
 func _ready():
 	set_character_stats(golem_resource)
 	prepare_unit()
-
 
 
 func perform_attack():

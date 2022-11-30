@@ -1,16 +1,10 @@
 extends Unitbase
 
-
 onready var archer_resource = load("res://Units/Archer.tres")
-
-
-
 
 func _ready():
 	set_character_stats(archer_resource)
 	prepare_unit()
-
-
 
 func perform_attack():
 	if _check_if_enemy_exists(focused_enemy_path):
