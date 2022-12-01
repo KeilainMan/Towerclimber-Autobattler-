@@ -63,7 +63,6 @@ func construct_level():
 	
 	
 func set_a_tilemap(tilemap_res):
-	print(tilemap_res)
 	$TileMap.set_tileset(tilemap_res)
 	
 func instance_player_positions(player_positions_scene):
@@ -90,7 +89,6 @@ func get_all_enemy_information():
 
 	#connected to a signal of the selectioninterface
 func _on_wanting_to_place_a_unit(unit_scene):
-	print(unit_scene)
 	instance_a_unit_for_visualisation(unit_scene)
 	
 	#gets a visual copy of the chosen unit to place on the grid
@@ -106,7 +104,6 @@ func instance_a_unit_for_visualisation(unit_scene):
 	
 	#connects to a individual tile scene, positions chosen unit on a grid tile
 func _on_tile_hovered(tileposition):
-	print(tileposition)
 	if a_unit_is_selected_for_placement:
 		currently_selected_unit_for_placement.position = tileposition
 	

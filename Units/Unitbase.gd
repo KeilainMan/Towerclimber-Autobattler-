@@ -14,6 +14,7 @@ enum UnitState {
 	ATTACKING,
 	MOVING,
 	SEARCHING_NEXT_ENEMY_TO_ATTACK,
+	CASTING_ABILITY,
 	DEAD,
 }
 
@@ -150,6 +151,8 @@ func _process(delta) -> void:
 						move_and_slide(direction_vector*movement_speed)
 				else:
 					reset_figure()
+			UnitState.CASTING_ABILITY:
+				stop_attack_state()
 
 			UnitState.DEAD:
 				sprites.play("Death")
@@ -225,9 +228,19 @@ func perform_special_ability() -> void:
 	print("special ability")
 	
 	
+func stop_attack_state() -> void:
+	self.already_attacking = false
+	$AttackcooldownTimer.stop()
+	reset_attackcooldowntimer()
+	
+	
 func _on_AttackcooldownTimer_timeout() -> void:
 	perform_attack()
+	
 
+func reset_attackcooldowntimer() -> void:
+	$AttackcooldownTimer.set_wait_time(1/attack_speed)
+	
 
 func _on_focused_enemy_died() -> void:
 	state = UnitState.INACTIVE
@@ -299,6 +312,7 @@ func reset_figure() -> void:
 	self.focused_enemy = null
 	self.already_attacking = false
 	$AttackcooldownTimer.stop()
+	reset_attackcooldowntimer()
 
 
 func _on_CharacterAnimations_animation_finished() -> void:

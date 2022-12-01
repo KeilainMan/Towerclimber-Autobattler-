@@ -6,7 +6,7 @@
 script = ExtResource( 1 )
 character_name = ""
 character_discription = ""
-health = 100
+health = 500
 damage = 25
 ranged = false
 attack_range = 50.0

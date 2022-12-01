@@ -3,7 +3,7 @@ extends Unitbase
 onready var warrior_resource: Resource = load("res://Units/Warrior.tres")
 export var ability_damage: int = 50
 
-const ENEMIES_TO_HIT_WITH_ABILITY: int = 3
+const ENEMIES_TO_HIT_WITH_ABILITY: int = 4
 
 func _ready() -> void:
 	set_character_stats(warrior_resource)
@@ -20,6 +20,7 @@ func perform_attack() -> void:
 
 #special ability: teleportiert sich zu den nächsten 4 Gegner und fügt Schaden zu (wie Alpha Strike)
 func perform_special_ability() -> void:
+	state = UnitState.CASTING_ABILITY
 	var start_position: Vector2 = position
 	var enemys_hit_by_ability: Array = get_enemys_hit_by_ability()
 	var enemy_paths: Array = []
@@ -34,6 +35,8 @@ func perform_special_ability() -> void:
 			yield(get_tree().create_timer(0.5), "timeout")
 	
 	position = start_position
+	state = UnitState.INACTIVE
+	
 	
 func get_enemys_hit_by_ability() -> Array:
 	var enemys_with_diffs: Array = get_differences_to_enemys()
