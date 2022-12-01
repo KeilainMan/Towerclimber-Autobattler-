@@ -22,21 +22,17 @@ enum GameOrganization {
 	OUTSIDE_RUN,
 	INSIDE_RUN,
 }
-# exports
-export var unit_value = 0
 
 # private stats
 var health: int 
-var meele_damage: int 
-var range_damage: int 
+var damage: int 
 var ranged: bool 
-var attack_range: float 
+var attack_range: int 
 var attack_speed: float 
 var movement_speed: int 
 var armor: int 
 var starting_mana: int 
 var maximum_mana: int 
-var relative_positions: Array 
 var traits: Array
 
 #public
@@ -90,17 +86,14 @@ func _on_Shopdetector_mouse_entered() -> void:
 #setzt die stats des characters
 func set_character_stats(resource: Resource) -> void:
 	health = resource.health
-	meele_damage = resource.meele_damage
-	range_damage = resource.range_damage
+	damage = resource.damage
 	ranged = resource.ranged
 	attack_range = resource.attack_range
 	attack_speed = resource.attack_speed
 	movement_speed = resource.movement_speed
 	armor = resource.armor
-	unit_value = resource.unit_value
 	starting_mana = resource.starting_mana
 	maximum_mana = resource.maximum_mana
-	relative_positions = resource.relative_positions
 	traits = resource.traits
 	
 func prepare_unit() -> void:
@@ -212,12 +205,8 @@ func attack_enemy() -> void:
 
 func perform_attack() -> void:
 	if _check_if_enemy_exists(focused_enemy_path):
-		if ranged:
-			focused_enemy.receive_damage(range_damage)
-			get_mana(range_damage)
-		else:
-			focused_enemy.receive_damage(meele_damage)
-			get_mana(meele_damage)
+			focused_enemy.receive_damage(damage)
+			get_mana(damage)
 	else:
 		reset_figure()
 		
@@ -247,7 +236,7 @@ func _on_focused_enemy_died() -> void:
 # was ist damage float oder int?
 func receive_damage(damage) -> void:
 	if health > 0:
-		var resulted_damage = damage * (1-(armor * 0.06))  #15 Armor = 90% Schadenverringerung
+		var resulted_damage: int = damage * (1-(armor * 0.06))  #15 Armor = 90% Schadenverringerung
 		health -= resulted_damage
 		emit_signal("update_healthbar", health)
 		spawn_damagenumber(resulted_damage)

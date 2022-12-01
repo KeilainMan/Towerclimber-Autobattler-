@@ -26,7 +26,6 @@ var fielded_tiles:Array = [] #positions of all tiles with a unit fielded
 #Unit placing variables
 var a_unit_is_selected_for_placement = false #if a unit is selected for potential placement its true
 var currently_selected_unit_for_placement #Objectreferenz to the selected unit
-var currently_selected_unit_rel_tile_positions:Array = [] #relative positions a fielded unit takes up (relative to potential position)
 
 #BATTLE PHASE VARIABLES
 
@@ -103,7 +102,7 @@ func instance_a_unit_for_visualisation(unit_scene):
 	new_unit.scale *= Vector2(3,3)
 	new_unit.set_spawn_environment(1)
 	add_child(new_unit)
-	currently_selected_unit_rel_tile_positions = new_unit.relative_positions.duplicate()
+
 	
 	#connects to a individual tile scene, positions chosen unit on a grid tile
 func _on_tile_hovered(tileposition):
@@ -115,17 +114,16 @@ func _on_tile_hovered(tileposition):
 	#readys the set unit for the game
 func _on_tile_is_selected_for_an_action(tileposition):
 	if a_unit_is_selected_for_placement:
-		if tiles_are_free(currently_selected_unit_rel_tile_positions, tileposition):
+		if tiles_are_free(currently_selected_unit_for_placement.position, tileposition):
 			add_unit_to_team()
 			currently_selected_unit_for_placement.set_unit_to_tile(tileposition)
 #			currently_selected_unit_for_placement.set_turn_info(turn)
-			organize_fielded_tiles(currently_selected_unit_rel_tile_positions, tileposition)
+			organize_fielded_tiles(tileposition)
 			Signals.emit_signal("Player_fielded_a_unit", currently_selected_unit_for_placement)
 			currently_selected_unit_for_placement = null
-			currently_selected_unit_rel_tile_positions.clear()
 			a_unit_is_selected_for_placement = false
 		else: 
-			instance_error_symbol(currently_selected_unit_rel_tile_positions, tileposition)
+			instance_error_symbol(tileposition)
 
 
 	#checks if the tiles, that the selected unit would need are available
@@ -146,10 +144,8 @@ func check_for_overlapping_tiles(unit_rel_positions, new_unit_position):
 	return overlapping_tiles
 
 	#adds the tiles to a array of all tiles that are fielded with a unit, when a unit is succesfully placed
-func organize_fielded_tiles(unit_rel_positions, new_unit_position):
-	var new_unit_definitive_tiles:Array = calc_definitive_positions(unit_rel_positions, new_unit_position)
-	for unit_pos in new_unit_definitive_tiles:
-		fielded_tiles.append(unit_pos)
+func organize_fielded_tiles(new_unit_position):
+		fielded_tiles.append(new_unit_position)
 
 	#calculates the positions a unit takes up based on its relative positions
 func calc_definitive_positions(unit_rel_positions, new_unit_position):
@@ -160,11 +156,9 @@ func calc_definitive_positions(unit_rel_positions, new_unit_position):
 	return definitiv_positions
 
 	#tiles that are not valid for a new unit show a error symbol
-func instance_error_symbol(needed_unit_positions, new_unit_position):
-	var overlapping_tiles = check_for_overlapping_tiles(needed_unit_positions, new_unit_position)
-	for pos in overlapping_tiles:
+func instance_error_symbol(new_unit_position):
 		var new_error_symbol = errorsymbol.instance()
-		new_error_symbol.position = pos
+		new_error_symbol.position = new_unit_position
 		add_child(new_error_symbol)
 
 
@@ -291,16 +285,12 @@ func a_placed_unit_was_clicked(mousepos):
 	#clicked fielded unit gets removed und fielded tiles restored
 func delete_boarded_unit(unit):
 	player_team.erase(unit)
-	readd_boarded_field(unit.relative_positions, unit.position)
-	print(unit.relative_positions, unit.position)
+	readd_boarded_field(unit.position)
 	unit.queue_free()
 	
 	#previously fielded tiles are restored
-func readd_boarded_field(unit_rel_positions, unit_position):
-	var definitive_positions:Array = calc_definitive_positions(unit_rel_positions, unit_position)
-	for pos in definitive_positions:
-		var index = fielded_tiles.find(pos)
-		fielded_tiles.remove(index)
+func readd_boarded_field(unit_position):
+	fielded_tiles.erase(unit_position)
 	
 	
 func _input(event):
