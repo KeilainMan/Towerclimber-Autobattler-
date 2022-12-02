@@ -4,9 +4,10 @@
 
 [resource]
 script = ExtResource( 1 )
-health = 100
-meele_damage = 25
-range_damage = 0
+character_name = ""
+character_discription = ""
+health = 500
+damage = 25
 ranged = false
 attack_range = 50.0
 attack_speed = 0.7
@@ -14,6 +15,4 @@ movement_speed = 75
 armor = 2
 starting_mana = 90
 maximum_mana = 100
-relative_positions = [ Vector2( 0, 0 ) ]
 traits = [ "Knight", "Fighter" ]
-unit_value = 1
