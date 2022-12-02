@@ -62,14 +62,14 @@ func construct_level() -> void:
 	instance_all_enemys_of_this_level(LevelConstructor.get_enemys_and_enemy_positions())
 	
 	
-func set_a_tilemap(tilemap_res) -> void:
+func set_a_tilemap(tilemap_res: Resource) -> void:
 	$TileMap.set_tileset(tilemap_res)
 	
-func instance_player_positions(player_positions_scene) -> void:
+func instance_player_positions(player_positions_scene: PackedScene) -> void:
 	var player_positions  = player_positions_scene.instance()
 	add_child(player_positions)
 	
-func instance_all_enemys_of_this_level(enemys_scene) -> void:
+func instance_all_enemys_of_this_level(enemys_scene: PackedScene) -> void:
 	var new_enemys = enemys_scene.instance()
 	add_child(new_enemys)
 	
@@ -88,11 +88,11 @@ func get_all_enemy_information() -> void:
 		child.set_turn_info("ENEMY")
 
 	#connected to a signal of the selectioninterface
-func _on_wanting_to_place_a_unit(unit_scene) -> void:
+func _on_wanting_to_place_a_unit(unit_scene: PackedScene) -> void:
 	instance_a_unit_for_visualisation(unit_scene)
 	
 	#gets a visual copy of the chosen unit to place on the grid
-func instance_a_unit_for_visualisation(unit_scene) -> void:
+func instance_a_unit_for_visualisation(unit_scene: PackedScene) -> void:
 	a_unit_is_selected_for_placement = true
 	var new_unit = unit_scene.instance()
 	currently_selected_unit_for_placement = new_unit
@@ -103,15 +103,15 @@ func instance_a_unit_for_visualisation(unit_scene) -> void:
 
 	
 	#connects to a individual tile scene, positions chosen unit on a grid tile
-func _on_tile_hovered(tileposition) -> void:
+func _on_tile_hovered(tileposition: Vector2) -> void:
 	if a_unit_is_selected_for_placement:
 		currently_selected_unit_for_placement.position = tileposition
 	
 	#connects to a individual tile scene, that is clicked upon
 	#readys the set unit for the game
-func _on_tile_is_selected_for_an_action(tileposition) -> void:
+func _on_tile_is_selected_for_an_action(tileposition: Vector2) -> void:
 	if a_unit_is_selected_for_placement:
-		if tiles_are_free(currently_selected_unit_for_placement.position, tileposition):
+		if tile_is_free(tileposition):
 			add_unit_to_team()
 			currently_selected_unit_for_placement.set_unit_to_tile(tileposition)
 #			currently_selected_unit_for_placement.set_turn_info(turn)
@@ -123,55 +123,39 @@ func _on_tile_is_selected_for_an_action(tileposition) -> void:
 			instance_error_symbol(tileposition)
 
 
-	#checks if the tiles, that the selected unit would need are available
-func tiles_are_free(unit_rel_positions, new_unit_position) -> bool:
-	var overlapping_tiles = check_for_overlapping_tiles(unit_rel_positions, new_unit_position)
-	if overlapping_tiles.empty():
-		return true
-	return false
-	
-	#return the tiles that would overlap between tiles that would be needed for a new unit and are already fielded
-func check_for_overlapping_tiles(unit_rel_positions, new_unit_position) -> Array:
-	var overlapping_tiles: Array = []
-	var new_unit_definitive_tiles:Array = calc_definitive_positions(unit_rel_positions, new_unit_position)
-	for unit_pos in new_unit_definitive_tiles:
-		for tilepos in fielded_tiles:
-			if unit_pos == tilepos:
-				overlapping_tiles.append(unit_pos)
-	return overlapping_tiles
+	# Checks if the selected tile for a new unit is already occupied with another unit
+func tile_is_free(tile_position: Vector2) -> bool:
+	for tilepos in fielded_tiles:
+		if tile_position == tilepos:
+			return false
+	return true
 
-	#adds the tiles to a array of all tiles that are fielded with a unit, when a unit is succesfully placed
-func organize_fielded_tiles(new_unit_position) -> void:
+
+	# adds the tiles to a array of all tiles that are fielded with a unit, when a unit is succesfully placed
+func organize_fielded_tiles(new_unit_position: Vector2) -> void:
 		fielded_tiles.append(new_unit_position)
+		
 
-	#calculates the positions a unit takes up based on its relative positions
-func calc_definitive_positions(unit_rel_positions, new_unit_position):
-	var definitiv_positions:Array = []
-	for rel_pos in unit_rel_positions:
-		var new_pos = new_unit_position + rel_pos
-		definitiv_positions.append(new_pos)
-	return definitiv_positions
-
-	#tiles that are not valid for a new unit show a error symbol
+	# tiles that are not valid for a new unit show a error symbol
 func instance_error_symbol(new_unit_position) -> void:
 		var new_error_symbol = errorsymbol.instance()
 		new_error_symbol.position = new_unit_position
 		add_child(new_error_symbol)
 
 
-#BATTLE PHASE FUNCTIONS
+# BATTLE PHASE FUNCTIONS
 
-	#adds a placed unit into a player team array
+	# adds a placed unit into a player team array
 func add_unit_to_team() -> void:
 	player_team.append(currently_selected_unit_for_placement)
 
-	#connects to the unit who died
-func _on_unit_died(unit) -> void:
+	# connects to the unit who died
+func _on_unit_died(unit: Unitbase) -> void:
 	delete_unit_from_team(unit, unit.team)
 	check_if_level_is_over(unit.team)
 	
-	#checks if the level is over, if no units are remaining in any team
-func check_if_level_is_over(unit_team) -> void:
+	# checks if the level is over, if no units are remaining in any team
+func check_if_level_is_over(unit_team: String) -> void:
 	if unit_team == "PLAYER":
 		if player_team.empty():
 			emit_signal("game_over", "PLAYER")
@@ -179,8 +163,8 @@ func check_if_level_is_over(unit_team) -> void:
 		if all_enemys.empty():
 			emit_signal("game_over", "ENEMY")
 		
-	#deletes a unit, that dies in battle from the corresponding team array
-func delete_unit_from_team(unit, team) -> void:
+	# deletes a unit, that dies in battle from the corresponding team array
+func delete_unit_from_team(unit: Unitbase, team: String) -> void:
 	if team == "PLAYER":
 		player_team.erase(unit)
 		update_enemy_teams()
@@ -189,44 +173,44 @@ func delete_unit_from_team(unit, team) -> void:
 		update_enemy_teams()
 		
 		
-#BATTLE INITIALIZATION FUNCTIONS AND ONGOING BATTLE FUNCTIONS
+# BATTLE INITIALIZATION FUNCTIONS AND ONGOING BATTLE FUNCTIONS
 func _on_StartGameButton_pressed() -> void:
 	update_enemy_teams()
 	activate_units()
 	delete_all_tiles()
 	print("Start")
 
-	#sends all units the their corresponding enemys
+	# sends all units the their corresponding enemys
 func update_enemy_teams() -> void:
 	for player_unit in player_team:
 		player_unit.get_enemy_team(all_enemys)
 	for enemy_unit in all_enemys:
 		enemy_unit.get_enemy_team(player_team)
 
-	#activates battleprocess in units
+	# activates battleprocess in units
 func activate_units() -> void:
 	for player_unit in player_team:
 		player_unit.start_battle_phase()
 	for enemy_unit in all_enemys:
 		enemy_unit.start_battle_phase()
 
-	#clears all the tiles for visibilitie
+	# clears all the tiles for visibilitie
 func delete_all_tiles() -> void:
 	for i in tiles.get_children():
 		tiles.remove_child(i)
 		i.queue_free()
 	tile_positions.clear()
 	
-#GAME ENDING FUNCTIONS
-	#if the battle is finished, this function organizes the finish
-func on_game_over(looser) -> void:
+# GAME ENDING FUNCTIONS
+	# if the battle is finished, this function organizes the finish
+func on_game_over(looser: String) -> void:
 	disable_and_release_all_units()
 	if looser == "PLAYER":
 		spawn_player_lost_screen()
 	elif looser == "ENEMY":
 		pass
 
-	#sets process of all units false and releases them (queues free)
+	# sets process of all units false and releases them (queues free)
 func disable_and_release_all_units() -> void:
 	if !player_team.empty():
 		for unit in player_team:
@@ -237,20 +221,20 @@ func disable_and_release_all_units() -> void:
 			unit.set_process(false)
 			unit.queue_free()
 			
-	#instances a screen that shows, that the player lost, the players rewards and stats?
+	# instances a screen that shows, that the player lost, the players rewards and stats?
 func spawn_player_lost_screen() -> void:
 	var new_loose_screen = player_lost_screen.instance()
 	$CanvasLayer.add_child(new_loose_screen)
 	
-#INPUTRELATED FUNCTIONS
+# INPUTRELATED FUNCTIONS
 	
-	#if a unit shall not be selected
+	# if a unit shall not be selected
 func deselect_selected_unit() -> void:
 	a_unit_is_selected_for_placement = false
 	currently_selected_unit_for_placement.queue_free()
 
-	#if a fielded unit shall be removed, identifies the clicked unit
-func identify_unit_clicked(tileposition):
+	# if a fielded unit shall be removed, identifies the clicked unit
+func identify_unit_clicked(tileposition: Vector2):
 	var return_unit = null
 	for unit in player_team:
 		if unit.position == tileposition:
@@ -259,8 +243,8 @@ func identify_unit_clicked(tileposition):
 	return return_unit
 
 	
-	#identifies the clicked tile
-func identify_tile_clicked(mousepos) -> Vector2:
+	# identifies the clicked tile
+func identify_tile_clicked(mousepos: Vector2) -> Vector2:
 	var smallest: float = 100000
 	var return_pos: Vector2 = Vector2()
 	for tile in tile_positions:
@@ -270,8 +254,8 @@ func identify_tile_clicked(mousepos) -> Vector2:
 			return_pos = tile
 	return return_pos
 	
-	#checks if a unit was meant to be clicked
-func a_placed_unit_was_clicked(mousepos) -> bool:
+	# checks if a unit was meant to be clicked
+func a_placed_unit_was_clicked(mousepos: Vector2) -> bool:
 	var clicked_tile = identify_tile_clicked(mousepos)
 	var clicked_unit = identify_unit_clicked(clicked_tile)
 	if clicked_unit == null:
@@ -279,14 +263,14 @@ func a_placed_unit_was_clicked(mousepos) -> bool:
 	else:
 		return true
 		
-	#clicked fielded unit gets removed und fielded tiles restored
-func delete_boarded_unit(unit) -> void:
+	# clicked fielded unit gets removed und fielded tiles restored
+func delete_boarded_unit(unit: Unitbase) -> void:
 	player_team.erase(unit)
 	readd_boarded_field(unit.position)
 	unit.queue_free()
 	
-	#previously fielded tiles are restored
-func readd_boarded_field(unit_position) -> void:
+	# previously fielded tiles are restored
+func readd_boarded_field(unit_position: Vector2) -> void:
 	fielded_tiles.erase(unit_position)
 	
 	
