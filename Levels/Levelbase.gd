@@ -266,6 +266,7 @@ func a_placed_unit_was_clicked(mousepos: Vector2) -> bool:
 	# clicked fielded unit gets removed und fielded tiles restored
 func delete_boarded_unit(unit: Unitbase) -> void:
 	player_team.erase(unit)
+	Signals.emit_signal("Player_deleted_a_unit", unit)
 	readd_boarded_field(unit.position)
 	unit.queue_free()
 	

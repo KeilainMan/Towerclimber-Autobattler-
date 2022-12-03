@@ -1,7 +1,7 @@
 extends Control
 
-onready var unitcontainer:Node = get_node("MarginContainer/VBoxContainer/Unitspace/HBoxContainer/MarginContainer2/Unitcontainer")
-onready var units:Array = [
+onready var unitcontainer :Node = get_node("MarginContainer/VBoxContainer/Unitspace/HBoxContainer/MarginContainer2/Unitcontainer")
+onready var units: Array = [
 	preload("res://Units/Archer.tscn"),
 	preload("res://Units/Warrior.tscn"),
 	preload("res://Units/Golem.tscn")
@@ -9,15 +9,15 @@ onready var units:Array = [
 
 #Speichern der Units, welche im Shop angezeigt werden,
 #damit sie im Run genutzt werden können wenn gewollt
-var unit1:PackedScene
-var unit2:PackedScene
-var unit3:PackedScene
-var unit4:PackedScene
-var unit5:PackedScene
+var unit1: PackedScene
+var unit2: PackedScene
+var unit3: PackedScene
+var unit4: PackedScene
+var unit5: PackedScene
 
-func _ready():
+func _ready() -> void:
 	randomize()
-	var child_count:int = 0
+	var child_count: int = 0
 	for unitspace in unitcontainer.get_children():
 		
 		units.shuffle()
@@ -29,7 +29,7 @@ func _ready():
 		add_units_to_variables(units[0], child_count)
 		child_count += 1
 		
-func add_units_to_variables(unit, child_count):
+func add_units_to_variables(unit, child_count) -> void:
 	if child_count == 0:
 		unit1 = unit
 	elif child_count == 1:

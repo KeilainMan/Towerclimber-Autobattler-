@@ -4,8 +4,8 @@ extends Node2D
 onready var gameboard 
 
 
-var tilesize = Vector2(32*3,32*3) 
-var selected = false
+var tilesize: Vector2 = Vector2(32*3,32*3) 
+var selected: bool = false
 
 
 signal I_was_selected_for_an_action
