@@ -214,8 +214,8 @@ func perform_attack() -> void:
 		reset_figure()
 		
 		
-func get_mana(damage) -> void:
-	var mana_value = damage/2
+func get_mana(damage: int) -> void:
+	var mana_value = damage / 2
 	emit_signal("update_manabar", mana_value)
 	
 	
@@ -247,9 +247,9 @@ func _on_focused_enemy_died() -> void:
 
 
 # was ist damage float oder int?
-func receive_damage(damage) -> void:
+func receive_damage(damage: int) -> void:
 	if health > 0:
-		var resulted_damage: int = damage * (1-(armor * 0.06))  #15 Armor = 90% Schadenverringerung
+		var resulted_damage: int = damage * (1 -( armor * 0.06))  #15 Armor = 90% Schadenverringerung
 		health -= resulted_damage
 		emit_signal("update_healthbar", health)
 		spawn_damagenumber(resulted_damage)
@@ -259,7 +259,7 @@ func receive_damage(damage) -> void:
 		state = UnitState.DEAD
 		
 		
-func spawn_damagenumber(resulted_damage) -> void:
+func spawn_damagenumber(resulted_damage: int) -> void:
 	var new_damagenumber = damagenumber.instance()
 	new_damagenumber.global_position = position
 	get_tree().current_scene.add_child(new_damagenumber)
@@ -271,13 +271,13 @@ func get_moving_vector() -> Vector2:
 	return direction.normalized()
 
 
-func set_unit_to_tile(tileposition):
+func set_unit_to_tile(tileposition: Vector2):
 	set_process(false)
 	is_placed = true
 	position = tileposition
 
 
-func set_turn_info(turn) -> void:
+func set_turn_info(turn: String) -> void:
 	if turn == "PLAYER":
 		team = "PLAYER"
 	elif turn == "ENEMY":
@@ -290,7 +290,7 @@ func start_battle_phase() -> void:
 		is_placed = true
 		
 
-func get_enemy_team(enemy_team) -> void:
+func get_enemy_team(enemy_team: Array) -> void:
 	self.current_enemy_team = enemy_team
 	if not self.current_enemy_team.has(focused_enemy):
 		state = UnitState.INACTIVE
