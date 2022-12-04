@@ -17,8 +17,21 @@ __meta__ = {
 
 [node name="TopSpacer" type="MarginContainer" parent="."]
 anchor_right = 1.0
+margin_bottom = 840.171
+mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ShowMenu" type="Button" parent="."]
+margin_left = 3.0
+margin_top = 841.0
+margin_right = 1923.0
+margin_bottom = 901.0
+toggle_mode = true
+flat = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -56,4 +69,5 @@ texture = ExtResource( 2 )
 
 [node name="Tween" type="Tween" parent="."]
 
+[connection signal="toggled" from="ShowMenu" to="." method="_on_ShowMenu_toggled"]
 [connection signal="mouse_entered" from="Mousedetector" to="." method="_on_Mousedetector_mouse_entered"]
