@@ -3,6 +3,7 @@ extends Node
 
 
 signal wants_to_place_a_unit(unit) # from interfacebutton in level to gameboard
+signal unit_choosen() # from interfacebutton in level to selectioninterface
 
 signal I_am_hovered(position) # from a tile to the gameboard
 signal I_was_selected_for_an_action(position) # from a tile to the gameboard

@@ -14,7 +14,10 @@ var party:Array = []
 var units_in_party = 7
 
 
+
+
 onready var tween = get_node("Tween")
+var hovered: bool = false
 var active_position:Vector2
 var hidden_position:Vector2
 var active = false
@@ -30,6 +33,8 @@ func _ready():
 	hidden_position = Vector2(active_position.x, active_position.y +180)
 	rect_position = hidden_position
 	
+	Signals.connect("unit_choosen", self, "_on_unit_choosen")
+	
 func init_unit_buttons():
 	for unit_number in units_in_party:
 		var new_button = button_scene.instance()
@@ -39,12 +44,23 @@ func init_unit_buttons():
 	
 	
 func _on_Mousedetector_mouse_entered():
-	print("mouse")
-	if active:
-		tween.interpolate_property(self, "rect_position", active_position, hidden_position, 0.5, Tween.EASE_IN_OUT, Tween.TRANS_LINEAR)
-		active = false
-	else:
-		tween.interpolate_property(self, "rect_position", hidden_position, active_position, 0.5, Tween.EASE_IN_OUT, Tween.TRANS_LINEAR)
-		active = true
-	tween.start()
+	hovered = true
+#	print("mouse")
+#	if active:
+#		tween.interpolate_property(self, "rect_position", active_position, hidden_position, 0.5, Tween.EASE_IN_OUT, Tween.TRANS_LINEAR)
+#		active = false
+#	else:
+#		tween.interpolate_property(self, "rect_position", hidden_position, active_position, 0.5, Tween.EASE_IN_OUT, Tween.TRANS_LINEAR)
+#		active = true
+#	tween.start()
 
+
+
+func _on_ShowMenu_toggled(button_pressed):
+	if button_pressed:
+		rect_position = active_position
+	elif !button_pressed:
+		rect_position = hidden_position
+
+func _on_unit_choosen():
+	$ShowMenu.pressed = false
