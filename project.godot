@@ -14,15 +14,15 @@ _global_script_classes=[ {
 "language": "NativeScript",
 "path": "res://addons/godot-git-plugin/git_api.gdns"
 }, {
+"base": "Node",
+"class": "LevelConstructorBase",
+"language": "GDScript",
+"path": "res://GlobalsScripts/Level_Constructor.gd"
+}, {
 "base": "Node2D",
 "class": "Levelbase",
 "language": "GDScript",
 "path": "res://Levels/Levelbase.gd"
-}, {
-"base": "Node",
-"class": "Levelconstructor",
-"language": "GDScript",
-"path": "res://GlobalsScripts/Level_Constructor.gd"
 }, {
 "base": "Resource",
 "class": "Unit_Stats",
@@ -36,8 +36,8 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "GitAPI": "",
+"LevelConstructorBase": "",
 "Levelbase": "",
-"Levelconstructor": "",
 "Unit_Stats": "",
 "Unitbase": ""
 }
@@ -51,7 +51,6 @@ config/icon="res://icon.png"
 
 PartyManager="*res://GlobalsScripts/PartyManager.gd"
 RunManager="*res://GlobalsScripts/RunManager.gd"
-LevelConstructor="*res://GlobalsScripts/Level_Constructor.gd"
 Signals="*res://GlobalsScripts/Signals.gd"
 
 [display]

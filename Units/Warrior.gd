@@ -41,8 +41,9 @@ func perform_special_ability() -> void:
 func get_enemys_hit_by_ability() -> Array:
 	var enemys_with_diffs: Array = get_differences_to_enemys()
 	var enemys_that_will_get_hit: Array = []
+	var enemy_number: int = min(enemys_with_diffs.size(), ENEMIES_TO_HIT_WITH_ABILITY)
 	
-	for _i in range(ENEMIES_TO_HIT_WITH_ABILITY):
+	for _i in range(enemy_number):
 		var closest_enemy = find_closest_enemy_for_ability(enemys_with_diffs)
 		enemys_that_will_get_hit.append(closest_enemy[0])
 		enemys_with_diffs.erase(closest_enemy)

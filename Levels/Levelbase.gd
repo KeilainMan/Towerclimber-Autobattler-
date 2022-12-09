@@ -42,7 +42,7 @@ signal game_over #gets emitted if a unit dies and its team is empty
 #PREPARATION PHASE FUNCTIONS
 func _ready() -> void:
 	
-	construct_level() #sets a random tilemap, possible spawn tiles, enemys, enemys constallations
+	#construct_level() #sets a random tilemap, possible spawn tiles, enemys, enemys constallations
 	
 	get_all_tile_information() #collects all tile data, e.g. position, instances
 	get_all_enemy_information() #collects all enemy data, e.g. instances
@@ -57,9 +57,10 @@ func _ready() -> void:
 	
 	
 func construct_level() -> void:
-	set_a_tilemap(LevelConstructor.get_tilemap())
-	instance_player_positions(LevelConstructor.get_player_positions())
-	instance_all_enemys_of_this_level(LevelConstructor.get_enemys_and_enemy_positions())
+	pass
+#	set_a_tilemap(LevelConstructor.get_tilemap())
+#	instance_player_positions(LevelConstructor.get_player_positions())
+#	instance_all_enemys_of_this_level(LevelConstructor.get_enemys_and_enemy_positions())
 	
 	
 func set_a_tilemap(tilemap_res: Resource) -> void:
@@ -204,11 +205,19 @@ func delete_all_tiles() -> void:
 # GAME ENDING FUNCTIONS
 	# if the battle is finished, this function organizes the finish
 func on_game_over(looser: String) -> void:
+#	clear_all_enemy_teams()
 	disable_and_release_all_units()
 	if looser == "PLAYER":
 		spawn_player_lost_screen()
 	elif looser == "ENEMY":
 		pass
+
+
+#func clear_all_enemy_teams() -> void:
+#	for player_unit in player_team:
+#		player_unit.clear_enemy_team()
+#	for enemy_unit in all_enemys:
+#		enemy_unit.clear_enemy_team()
 
 	# sets process of all units false and releases them (queues free)
 func disable_and_release_all_units() -> void:
