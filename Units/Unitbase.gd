@@ -220,6 +220,7 @@ func get_mana(damage: int) -> void:
 	
 	
 func _on_mana_fully_charged() -> void:
+	print("Mana voll")
 	perform_special_ability()
 	emit_signal("update_manabar", -100)
 	
@@ -322,6 +323,8 @@ func _on_CharacterAnimations_animation_finished() -> void:
 
 
 func _on_CollisionArea_body_entered(body) -> void:
+	if body == self:
+		return
 	units_in_attack_range.append(body)
 
 

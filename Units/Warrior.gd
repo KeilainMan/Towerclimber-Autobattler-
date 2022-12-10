@@ -46,6 +46,7 @@ func get_enemys_hit_by_ability() -> Array:
 		var closest_enemy = find_closest_enemy_for_ability(enemys_with_diffs)
 		enemys_that_will_get_hit.append(closest_enemy[0])
 		enemys_with_diffs.erase(closest_enemy)
+
 	return enemys_that_will_get_hit
 
 	

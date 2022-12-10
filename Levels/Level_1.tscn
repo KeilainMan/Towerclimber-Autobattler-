@@ -1,10 +1,8 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Levels/Levelbase.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/Tilemapassets/Grasland_tiles/TilesetGrass/TilesetGrass/overworld_tileset_grass.png" type="Texture" id=2]
 [ext_resource path="res://Levels/Level_1.gd" type="Script" id=4]
-[ext_resource path="res://Units/Enemys/Kobold_Chief.tscn" type="PackedScene" id=5]
-[ext_resource path="res://Units/Enemys/Kobold.tscn" type="PackedScene" id=6]
 
 [sub_resource type="TileSet" id=1]
 resource_local_to_scene = true
@@ -49,19 +47,3 @@ script = ExtResource( 4 )
 
 [node name="TileMap" parent="." index="0"]
 tile_set = SubResource( 1 )
-
-[node name="Kobold" parent="Levelenemys" index="0" instance=ExtResource( 6 )]
-position = Vector2( 1600, 320 )
-scale = Vector2( 3, 3 )
-
-[node name="Kobold2" parent="Levelenemys" index="1" instance=ExtResource( 6 )]
-position = Vector2( 1600, 704 )
-scale = Vector2( 3, 3 )
-
-[node name="Kobold3" parent="Levelenemys" index="2" instance=ExtResource( 6 )]
-position = Vector2( 1600, 514 )
-scale = Vector2( 3, 3 )
-
-[node name="Unitbase" parent="Levelenemys" index="3" instance=ExtResource( 5 )]
-position = Vector2( 1377, 515 )
-scale = Vector2( 3, 3 )

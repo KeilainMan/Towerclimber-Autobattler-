@@ -94,7 +94,7 @@ func _on_wanting_to_place_a_unit(unit_scene: PackedScene) -> void:
 	#gets a visual copy of the chosen unit to place on the grid
 func instance_a_unit_for_visualisation(unit_scene: PackedScene) -> void:
 	a_unit_is_selected_for_placement = true
-	var new_unit = unit_scene.instance()
+	var new_unit: Unitbase = unit_scene.instance()
 	currently_selected_unit_for_placement = new_unit
 	new_unit.position = get_global_mouse_position()
 	new_unit.scale *= Vector2(3,3)
