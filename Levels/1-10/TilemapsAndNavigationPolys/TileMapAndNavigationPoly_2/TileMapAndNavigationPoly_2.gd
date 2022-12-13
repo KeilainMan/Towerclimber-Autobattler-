@@ -1,4 +1,4 @@
-extends TileMap
+extends LevelBackgroundBase
 
 
 var playerpositions: Array = [
@@ -19,17 +19,5 @@ var enemys: Array = [
 
 func _ready() -> void:
 	randomize()
-	instance_playerpositions()
-	instance_enemys()
-
-
-func instance_playerpositions() -> void:
-	playerpositions.shuffle()
-	var new_playerpositions: Node = playerpositions[0].instance()
-	call_deferred("add_child", new_playerpositions)
-
-
-func instance_enemys() -> void:
-	enemys.shuffle()
-	var new_enemys: Node = enemys[0].instance()
-	call_deferred("add_child", new_enemys)
+	_set_playerpositions_of_this_level(playerpositions)
+	_set_enemys_of_this_level(enemys)
