@@ -25,14 +25,3 @@ func _ready() -> void:
 	_set_enemys_of_this_level(enemys)
 
 
-#
-#func instance_playerpositions() -> void:
-#	playerpositions.shuffle()
-#	var new_playerpositions: Node = playerpositions[0].instance()
-#	call_deferred("add_child", new_playerpositions)
-#
-#
-#func instance_enemys() -> void:
-#	enemys.shuffle()
-#	var new_enemys: Node = enemys[0].instance()
-#	call_deferred("add_child", new_enemys)

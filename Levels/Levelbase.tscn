@@ -22,9 +22,6 @@ margin_top = 144.0
 margin_right = 160.0
 margin_bottom = 184.0
 text = "Start Game"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="PlayerPartyBuffs" type="Node" parent="."]
 script = ExtResource( 2 )

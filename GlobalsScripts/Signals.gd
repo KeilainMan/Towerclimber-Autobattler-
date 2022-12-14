@@ -1,6 +1,6 @@
 extends Node
 
-
+signal level_instanced()# emitted if all three levelparts are instanced
 
 signal wants_to_place_a_unit(unit) # from interfacebutton in level to gameboard
 signal unit_choosen() # from interfacebutton in level to selectioninterface

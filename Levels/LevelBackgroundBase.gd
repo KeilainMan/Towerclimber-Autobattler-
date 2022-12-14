@@ -14,13 +14,17 @@ var playerpositions_of_this_level: Array = [] setget _set_playerpositions_of_thi
 # der die Szenen gespeichert hat
 var enemys_of_this_level: Array = [] setget _set_enemys_of_this_level
 
+var child_count: int = 0
+
 signal enemys_set
 signal playerpositions_set
+
 
 func _ready() -> void:
 	randomize()
 	connect("enemys_set", self, "_on_enemys_set")
 	connect("playerpositions_set", self, "_on_playerpositions_set")
+	connect("child_entered_tree", self, "_on_child_entered_tree")
 
 
 func _set_enemys_of_this_level(enemys: Array) -> void:
@@ -45,11 +49,17 @@ func instance_playerpositions() -> void:
 	playerpositions_of_this_level.shuffle()
 	var new_playerpositions: Node = playerpositions_of_this_level[0].instance()
 	call_deferred("add_child", new_playerpositions)
+	Signals.emit_signal("levels_playerpositions_instanced", "PLAYERPOSITIONS")
 
 
 func instance_enemys() -> void:
 	enemys_of_this_level.shuffle()
 	var new_enemys: Node = enemys_of_this_level[0].instance()
 	call_deferred("add_child", new_enemys)
-	
-	
+	Signals.emit_signal("levels_enemys_instanced", "ENEMYS")
+
+
+func _on_child_entered_tree(childnode: Node) -> void:
+	child_count += 1
+	if child_count == 2:
+		Signals.emit_signal("level_instanced")

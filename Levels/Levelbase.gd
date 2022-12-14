@@ -36,23 +36,17 @@ var all_enemys: Array = [] #instances of all enemys of this level
 var player_team: Array
 
 #signals
-signal game_over #gets emitted if a unit dies and its team is empty
+signal game_over() #gets emitted if a unit dies and its team is empty
 
 
 #PREPARATION PHASE FUNCTIONS
 func _ready() -> void:
-	
-	#construct_level() #sets a random tilemap, possible spawn tiles, enemys, enemys constallations
-	
-#	get_all_tile_information() #collects all tile data, e.g. position, instances
-#	get_all_enemy_information() #collects all enemy data, e.g. instances
-
-
 	#signals
 	Signals.connect("wants_to_place_a_unit", self, "_on_wanting_to_place_a_unit")
 	Signals.connect("I_am_hovered", self, "_on_tile_hovered")
 	Signals.connect("I_was_selected_for_an_action", self, "_on_tile_is_selected_for_an_action")
 	Signals.connect("I_died", self, "_on_unit_died")
+	Signals.connect("level_instanced", self, "_on_level_instanced")
 	connect("game_over", self, "on_game_over")
 
 
@@ -60,38 +54,28 @@ func instance_level_number_x(level: int) -> void:
 	var newly_build_level = LevelConstructorOrganizer.initiate_level_construction(level)
 	var new_level = newly_build_level.instance()
 	add_child(new_level)
+	move_child(new_level, 0)
+	Signals.emit_signal("levelbackground_instanced", "LEVELBACKGROUND")
 
 
-func construct_level() -> void:
-	pass
-#	set_a_tilemap(LevelConstructor.get_tilemap())
-#	instance_player_positions(LevelConstructor.get_player_positions())
-#	instance_all_enemys_of_this_level(LevelConstructor.get_enemys_and_enemy_positions())
+func _on_level_instanced():
+	_gather_all_information()
 
 
-func set_a_tilemap(tilemap_res: Resource) -> void:
-	$TileMap.set_tileset(tilemap_res)
+func _gather_all_information():
+	_gather_all_tile_information()
+	_gather_all_enemy_information()
 
 
-func instance_player_positions(player_positions_scene: PackedScene) -> void:
-	var player_positions  = player_positions_scene.instance()
-	add_child(player_positions)
-
-
-func instance_all_enemys_of_this_level(enemys_scene: PackedScene) -> void:
-	var new_enemys = enemys_scene.instance()
-	add_child(new_enemys)
-
-
-func get_all_tile_information() -> void:
-	tiles = get_node("Tiles")
+func _gather_all_tile_information() -> void:
+	tiles = get_node("TileMap").get_node("Tiles")
 	for child in tiles.get_children():
 		tile_instances.append(child)
 		tile_positions.append(child.position)
 
 
-func get_all_enemy_information() -> void:
-	enemy_node = get_node("Enemys")
+func _gather_all_enemy_information() -> void:
+	enemy_node = get_node("TileMap").get_node("Enemys")
 	for child in enemy_node.get_children():
 		all_enemys.append(child)
 		child.set_turn_info("ENEMY")
