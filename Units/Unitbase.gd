@@ -57,15 +57,20 @@ onready var attack_range_collision: Node = get_node("CollisionArea/CollisionShap
 onready var healthbar: Node = get_node("Healthbar")
 onready var manabar: Node = get_node("Manabar")
 onready var damagenumber: Resource = preload("res://Units/UI/Damageindikator.tscn")
+onready var navagent: Node = get_node("NavigationAgent2D")
+onready var navtimer: Node = get_node("NavTimer")
+onready var line_2d = $Line2D
+
 onready var is_placed: bool = false 
+
 
 func _ready() -> void:
 	match spawn_environment:
 		GameOrganization.OUTSIDE_RUN:
-			set_process(false)
+			set_physics_process(false)
 			sprites.play("Idle")
 		GameOrganization.INSIDE_RUN:
-			set_process(true)
+			set_physics_process(true)
 
 	connect("update_healthbar", healthbar, "_on_update_healthbar")
 	connect("update_manabar", manabar, "on_update_manabar")
@@ -112,7 +117,8 @@ func set_healthbar() -> void:
 func set_manabar() -> void:
 	manabar.initialize_manabar(maximum_mana, starting_mana)
 	
-func _process(delta) -> void:
+func _physics_process(delta) -> void:
+	line_2d.global_position = Vector2.ZERO
 	if not is_placed:
 		return
 	else:
@@ -127,6 +133,7 @@ func _process(delta) -> void:
 				state = UnitState.ATTACKING
 
 			UnitState.ATTACKING:
+				navtimer.stop()
 				if already_attacking:
 					return
 				else:
@@ -141,24 +148,55 @@ func _process(delta) -> void:
 						state = UnitState.ATTACKING
 						return
 					else:
+						if navagent.is_navigation_finished():
+							return
+						if navtimer.is_stopped():
+							navtimer.start()
 						sprites.play("Moving")
-						var direction_vector = get_moving_vector()
+						var targetpos: Vector2 = navagent.get_next_location()
+						var direction_vector: Vector2 = position.direction_to(targetpos)
 						if direction_vector.x > 0:
 							sprites.flip_h = false
 						else:
 							sprites.flip_h = true
-#						position += 
-						move_and_slide(direction_vector*movement_speed)
+						var velocity: Vector2 = direction_vector * navagent.max_speed * movement_speed
+						navagent.set_velocity(velocity)
+						
 				else:
 					reset_figure()
 			UnitState.CASTING_ABILITY:
 				stop_attack_state()
 
 			UnitState.DEAD:
+#				clear_enemy_team()
 				sprites.play("Death")
 				collision_zone.set_deferred("disabled", true)
 				$AttackcooldownTimer.stop()
-				set_process(false)
+				set_physics_process(false)
+				
+				
+
+func _on_NavigationAgent2D_velocity_computed(safe_velocity) -> void:
+	move_and_slide(safe_velocity)
+	
+
+func _on_NavTimer_timeout() -> void:
+	if !_check_if_enemy_exists(focused_enemy_path):
+		state = UnitState.INACTIVE
+	else:
+		navagent.set_target_location(focused_enemy.position)
+	
+	
+	
+func _on_NavigationAgent2D_target_reached() -> void:
+	navtimer.stop()
+
+	
+func _on_NavigationAgent2D_path_changed():
+	line_2d.points = navagent.get_nav_path()
+
+
+
 
 
 func determin_the_next_enemy_to_attack() -> void:
@@ -171,11 +209,11 @@ func determin_the_next_enemy_to_attack() -> void:
 
 func get_differences_to_enemys() -> Array:
 	var all_diffs_from_enemys: Array = []
-
-	for enemy in current_enemy_team:
-		var diff: float = get_diff_to_enemy(enemy.position)
-		var enemy_and_diff: Array = [enemy, diff]
-		all_diffs_from_enemys.append(enemy_and_diff)
+	if _check_if_enemy_team_exists():
+		for enemy in current_enemy_team:
+			var diff: float = get_diff_to_enemy(enemy.position)
+			var enemy_and_diff: Array = [enemy, diff]
+			all_diffs_from_enemys.append(enemy_and_diff)
 
 	return all_diffs_from_enemys
 
@@ -246,17 +284,20 @@ func _on_focused_enemy_died() -> void:
 	state = UnitState.INACTIVE
 
 
-# was ist damage float oder int?
+
 func receive_damage(damage: int) -> void:
 	if health > 0:
 		var resulted_damage: int = damage * (1 -( armor * 0.06))  #15 Armor = 90% Schadenverringerung
 		health -= resulted_damage
 		emit_signal("update_healthbar", health)
 		spawn_damagenumber(resulted_damage)
-
+		if health <= 0: 
+			state = UnitState.DEAD
+			Signals.emit_signal("I_died", self)
 	elif health <= 0:
-		Signals.emit_signal("I_died", self)
 		state = UnitState.DEAD
+		Signals.emit_signal("I_died", self)
+		
 		
 		
 func spawn_damagenumber(resulted_damage: int) -> void:
@@ -272,7 +313,7 @@ func get_moving_vector() -> Vector2:
 
 
 func set_unit_to_tile(tileposition: Vector2):
-	set_process(false)
+	set_physics_process(false)
 	is_placed = true
 	position = tileposition
 
@@ -285,7 +326,7 @@ func set_turn_info(turn: String) -> void:
 		
 
 func start_battle_phase() -> void:
-	set_process(true)
+	set_physics_process(true)
 	if not is_placed:
 		is_placed = true
 		
@@ -297,15 +338,25 @@ func get_enemy_team(enemy_team: Array) -> void:
 	if self.current_enemy_team.size() == 0:
 		deactivate_unit()
 
+func clear_enemy_team() -> void:
+	current_enemy_team.clear()
+	
 
 func deactivate_unit() -> void:
-	set_process(false)
+	navtimer.stop()
+	set_physics_process(false)
 	reset_figure()
 
 
 func _check_if_enemy_exists(enemy_path: NodePath) -> bool:
 	return get_tree().get_root().has_node(enemy_path)
 
+
+func _check_if_enemy_team_exists() -> bool:
+	if current_enemy_team.empty():
+		return false
+	else: return true
+	
 
 func reset_figure() -> void:
 	self.state = UnitState.INACTIVE
@@ -327,6 +378,14 @@ func _on_CollisionArea_body_entered(body) -> void:
 
 func _on_CollisionArea_body_exited(body) -> void:
 	units_in_attack_range.erase(body)
+
+
+
+
+
+
+
+
 
 
 

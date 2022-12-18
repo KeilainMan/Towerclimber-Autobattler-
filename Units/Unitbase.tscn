@@ -5,22 +5,22 @@
 [ext_resource path="res://Units/Unitbase.gd" type="Script" id=7]
 [ext_resource path="res://Units/UI/Healthbar.tscn" type="PackedScene" id=8]
 
-[sub_resource type="AtlasTexture" id=83]
+[sub_resource type="AtlasTexture" id=91]
 flags = 4
 atlas = ExtResource( 1 )
 region = Rect2( 0, 0, 32, 32 )
 
-[sub_resource type="AtlasTexture" id=84]
+[sub_resource type="AtlasTexture" id=92]
 flags = 4
 atlas = ExtResource( 1 )
 region = Rect2( 32, 0, 32, 32 )
 
-[sub_resource type="AtlasTexture" id=85]
+[sub_resource type="AtlasTexture" id=93]
 flags = 4
 atlas = ExtResource( 1 )
 region = Rect2( 64, 0, 32, 32 )
 
-[sub_resource type="AtlasTexture" id=86]
+[sub_resource type="AtlasTexture" id=94]
 flags = 4
 atlas = ExtResource( 1 )
 region = Rect2( 96, 0, 32, 32 )
@@ -44,46 +44,6 @@ region = Rect2( 0, 64, 64, 64 )
 flags = 4
 atlas = ExtResource( 1 )
 region = Rect2( 64, 64, 64, 64 )
-
-[sub_resource type="AtlasTexture" id=79]
-flags = 4
-atlas = ExtResource( 1 )
-region = Rect2( 0, 0, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=80]
-flags = 4
-atlas = ExtResource( 1 )
-region = Rect2( 32, 0, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=81]
-flags = 4
-atlas = ExtResource( 1 )
-region = Rect2( 64, 0, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=82]
-flags = 4
-atlas = ExtResource( 1 )
-region = Rect2( 96, 0, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=91]
-flags = 4
-atlas = ExtResource( 1 )
-region = Rect2( 0, 0, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=92]
-flags = 4
-atlas = ExtResource( 1 )
-region = Rect2( 32, 0, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=93]
-flags = 4
-atlas = ExtResource( 1 )
-region = Rect2( 64, 0, 32, 32 )
-
-[sub_resource type="AtlasTexture" id=94]
-flags = 4
-atlas = ExtResource( 1 )
-region = Rect2( 96, 0, 32, 32 )
 
 [sub_resource type="AtlasTexture" id=54]
 flags = 4
@@ -125,27 +85,57 @@ flags = 4
 atlas = ExtResource( 1 )
 region = Rect2( 96, 0, 32, 32 )
 
+[sub_resource type="AtlasTexture" id=83]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=84]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 32, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=85]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 64, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=86]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 96, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=79]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=80]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 32, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=81]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 64, 0, 32, 32 )
+
+[sub_resource type="AtlasTexture" id=82]
+flags = 4
+atlas = ExtResource( 1 )
+region = Rect2( 96, 0, 32, 32 )
+
 [sub_resource type="SpriteFrames" id=51]
 resource_local_to_scene = true
 animations = [ {
-"frames": [ SubResource( 83 ), SubResource( 84 ), SubResource( 85 ), SubResource( 86 ) ],
-"loop": true,
-"name": "Idle",
+"frames": [ SubResource( 91 ), SubResource( 92 ), SubResource( 93 ), SubResource( 94 ) ],
+"loop": false,
+"name": "Attack_1",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 70 ), SubResource( 71 ), SubResource( 72 ), SubResource( 73 ) ],
 "loop": false,
 "name": "Attack_2",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 79 ), SubResource( 80 ), SubResource( 81 ), SubResource( 82 ) ],
-"loop": true,
-"name": "Moving",
-"speed": 5.0
-}, {
-"frames": [ SubResource( 91 ), SubResource( 92 ), SubResource( 93 ), SubResource( 94 ) ],
-"loop": false,
-"name": "Attack_1",
 "speed": 5.0
 }, {
 "frames": [ SubResource( 54 ), SubResource( 55 ), SubResource( 56 ), SubResource( 57 ) ],
@@ -156,6 +146,16 @@ animations = [ {
 "frames": [ SubResource( 87 ), SubResource( 88 ), SubResource( 89 ), SubResource( 90 ) ],
 "loop": false,
 "name": "Death",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 83 ), SubResource( 84 ), SubResource( 85 ), SubResource( 86 ) ],
+"loop": true,
+"name": "Idle",
+"speed": 5.0
+}, {
+"frames": [ SubResource( 79 ), SubResource( 80 ), SubResource( 81 ), SubResource( 82 ) ],
+"loop": true,
+"name": "Moving",
 "speed": 5.0
 } ]
 
@@ -177,7 +177,7 @@ script = ExtResource( 7 )
 position = Vector2( 4, -21 )
 frames = SubResource( 51 )
 animation = "Idle"
-frame = 1
+frame = 3
 speed_scale = 2.0
 playing = true
 
@@ -213,10 +213,26 @@ shape = SubResource( 53 )
 position = Vector2( 5, -11 )
 shape = SubResource( 78 )
 
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 5.0
+target_desired_distance = 25.0
+avoidance_enabled = true
+max_speed = 100.0
+
+[node name="NavTimer" type="Timer" parent="."]
+process_mode = 0
+wait_time = 0.05
+
+[node name="Line2D" type="Line2D" parent="."]
+
 [connection signal="animation_finished" from="CharacterAnimations" to="." method="_on_CharacterAnimations_animation_finished"]
 [connection signal="timeout" from="AttackcooldownTimer" to="." method="_on_AttackcooldownTimer_timeout"]
 [connection signal="body_entered" from="CollisionArea" to="." method="_on_CollisionArea_body_entered"]
 [connection signal="body_exited" from="CollisionArea" to="." method="_on_CollisionArea_body_exited"]
 [connection signal="mouse_entered" from="Shopdetector" to="." method="_on_Shopdetector_mouse_entered"]
+[connection signal="path_changed" from="NavigationAgent2D" to="." method="_on_NavigationAgent2D_path_changed"]
+[connection signal="target_reached" from="NavigationAgent2D" to="." method="_on_NavigationAgent2D_target_reached"]
+[connection signal="velocity_computed" from="NavigationAgent2D" to="." method="_on_NavigationAgent2D_velocity_computed"]
+[connection signal="timeout" from="NavTimer" to="." method="_on_NavTimer_timeout"]
 
 [editable path="Healthbar"]

@@ -1,21 +1,12 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Levels/Levelresources/Testtilemaps/Tilemap_2.tres" type="TileSet" id=1]
 [ext_resource path="res://Levels/PlayerPartyBuffs.gd" type="Script" id=2]
 [ext_resource path="res://Selectioninterface/Modular_Selectioninterface.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Levels/Levelbase.gd" type="Script" id=4]
 [ext_resource path="res://UIs/PartyBuffs.tscn" type="PackedScene" id=5]
 
-[node name="Gameboard" type="Node2D"]
+[node name="LevelBase" type="Node2D"]
 script = ExtResource( 4 )
-
-[node name="TileMap" type="TileMap" parent="."]
-position = Vector2( 64, 0 )
-scale = Vector2( 4.00766, 4 )
-tile_set = ExtResource( 1 )
-cell_size = Vector2( 16, 16 )
-format = 1
-tile_data = PoolIntArray( -1, 1610612736, 0, 65533, 1610612736, 0, 65534, 1610612736, 0, 65535, 1610612736, 0, 131068, 1610612736, 0, 131069, 1610612736, 0, 196605, 1610612736, 0, 262141, 1610612736, 0, 262142, 1610612736, 0, 262143, 1610612736, 0, 196608, 1610612736, 0, 262144, 1610612736, 0, 262145, 1610612736, 0, 262164, 1610612736, 0 )
 
 [node name="CanvasLayer2" type="CanvasLayer" parent="."]
 
@@ -31,9 +22,6 @@ margin_top = 144.0
 margin_right = 160.0
 margin_bottom = 184.0
 text = "Start Game"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="PlayerPartyBuffs" type="Node" parent="."]
 script = ExtResource( 2 )

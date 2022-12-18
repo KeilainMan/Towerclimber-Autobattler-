@@ -5,19 +5,13 @@
 [node name="Enemys" type="Node"]
 
 [node name="Kobold" parent="." instance=ExtResource( 1 )]
-position = Vector2( 1344, 320 )
+position = Vector2( 1663, 160 )
 
 [node name="Kobold2" parent="." instance=ExtResource( 1 )]
-position = Vector2( 1472, 448 )
+position = Vector2( 288, 160 )
 
 [node name="Kobold3" parent="." instance=ExtResource( 1 )]
-position = Vector2( 1472, 576 )
+position = Vector2( 1536, 160 )
 
 [node name="Kobold4" parent="." instance=ExtResource( 1 )]
-position = Vector2( 1349, 704 )
-
-[node name="Kobold5" parent="." instance=ExtResource( 1 )]
-position = Vector2( 1216, 448 )
-
-[node name="Kobold6" parent="." instance=ExtResource( 1 )]
-position = Vector2( 1216, 576 )
+position = Vector2( 160, 160 )
