@@ -244,13 +244,10 @@ margin_top = 19.0
 margin_right = 80.0
 margin_bottom = 106.0
 
-[node name="CollisionShape2D" parent="CollisionArea" index="0"]
-position = Vector2( -1, 16 )
-
 [node name="CollisionShape2D" parent="Shopdetector" index="0"]
 position = Vector2( 0, 1 )
 
-[node name="NavigationAgent2D" parent="." index="7"]
+[node name="NavigationAgent2D" parent="." index="6"]
 target_desired_distance = 50.0
 
 [editable path="Healthbar"]

@@ -13,9 +13,9 @@ func _ready() -> void:
 func perform_attack() -> void:
 	if _check_if_enemy_exists(focused_enemy_path):
 		if sprites.animation == "Attack_1":
-			sprites.play("Attack_2")
+			_play_sprite_animation("Attack_2")
 		elif !sprites.animation == "Attack_1":
-			sprites.play("Attack_1")
+			_play_sprite_animation("Attack_1")
 	.perform_attack()
 
 #special ability: teleportiert sich zu den nächsten 4 Gegner und fügt Schaden zu (wie Alpha Strike)
@@ -66,7 +66,7 @@ func teleport_in_front_of_enemy(enemy_position: Vector2) -> void:
 
 func perform_ability_damage(enemy: Unitbase) -> void:
 	if sprites.animation == "Attack_1":
-		sprites.play("Attack_2")
+		_play_sprite_animation("Attack_2")
 	elif !sprites.animation == "Attack_1":
-		sprites.play("Attack_1")
+		_play_sprite_animation("Attack_1")
 	enemy.receive_damage(ability_damage)

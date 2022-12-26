@@ -49,14 +49,14 @@ func instance_playerpositions() -> void:
 	playerpositions_of_this_level.shuffle()
 	var new_playerpositions: Node = playerpositions_of_this_level[0].instance()
 	call_deferred("add_child", new_playerpositions)
-	Signals.emit_signal("levels_playerpositions_instanced", "PLAYERPOSITIONS")
+
 
 
 func instance_enemys() -> void:
 	enemys_of_this_level.shuffle()
 	var new_enemys: Node = enemys_of_this_level[0].instance()
 	call_deferred("add_child", new_enemys)
-	Signals.emit_signal("levels_enemys_instanced", "ENEMYS")
+
 
 
 func _on_child_entered_tree(childnode: Node) -> void:

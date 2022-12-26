@@ -163,12 +163,12 @@ animations = [ {
 radius = 16.0
 height = 2.0
 
-[sub_resource type="CircleShape2D" id=53]
-radius = 50.0
-
 [sub_resource type="CapsuleShape2D" id=78]
 radius = 16.0
 height = 16.0
+
+[sub_resource type="CircleShape2D" id=95]
+resource_local_to_scene = true
 
 [node name="Unitbase" type="KinematicBody2D"]
 script = ExtResource( 7 )
@@ -177,7 +177,7 @@ script = ExtResource( 7 )
 position = Vector2( 4, -21 )
 frames = SubResource( 51 )
 animation = "Idle"
-frame = 3
+frame = 1
 speed_scale = 2.0
 playing = true
 
@@ -202,11 +202,6 @@ margin_bottom = 3.0
 
 [node name="Manabar" parent="." instance=ExtResource( 2 )]
 
-[node name="CollisionArea" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CollisionArea"]
-shape = SubResource( 53 )
-
 [node name="Shopdetector" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Shopdetector"]
@@ -225,10 +220,13 @@ wait_time = 0.05
 
 [node name="Line2D" type="Line2D" parent="."]
 
+[node name="AttackRangeArea" type="Area2D" parent="."]
+
+[node name="AttackRangeCollisionShape" type="CollisionShape2D" parent="AttackRangeArea"]
+shape = SubResource( 95 )
+
 [connection signal="animation_finished" from="CharacterAnimations" to="." method="_on_CharacterAnimations_animation_finished"]
 [connection signal="timeout" from="AttackcooldownTimer" to="." method="_on_AttackcooldownTimer_timeout"]
-[connection signal="body_entered" from="CollisionArea" to="." method="_on_CollisionArea_body_entered"]
-[connection signal="body_exited" from="CollisionArea" to="." method="_on_CollisionArea_body_exited"]
 [connection signal="mouse_entered" from="Shopdetector" to="." method="_on_Shopdetector_mouse_entered"]
 [connection signal="path_changed" from="NavigationAgent2D" to="." method="_on_NavigationAgent2D_path_changed"]
 [connection signal="target_reached" from="NavigationAgent2D" to="." method="_on_NavigationAgent2D_target_reached"]

@@ -3,17 +3,18 @@ class_name Unitbase
 # Override following functions:
 
 # signals
-signal damage_enemy
-signal I_died
-signal update_healthbar
-signal update_manabar
+signal damage_enemy()
+signal I_died()
+signal update_healthbar()
+signal update_manabar()
+signal focused_enemy_set()
 
 # statemachine
 enum UnitState {
 	INACTIVE,
-	ATTACKING,
-	MOVING,
 	SEARCHING_NEXT_ENEMY_TO_ATTACK,
+	MOVING,
+	ATTACKING,
 	CASTING_ABILITY,
 	DEAD,
 }
@@ -37,14 +38,20 @@ var maximum_mana: int
 var traits: Array
 
 #public
-var state = UnitState.INACTIVE
-var already_attacking:bool = false
+var state = UnitState.INACTIVE setget set_state
+var is_already_inactive: bool = false
+var is_already_searching: bool = false
+var is_already_attacking: bool = false
+var is_already_casting: bool = false
+var is_already_dieing: bool = false
+
+var is_targetable: bool = false setget set_targetability, get_targetability
 
 #maprelevant information
-var current_enemy_team: Array
-var focused_enemy: Unitbase
+var current_enemy_team: Array = []
+var focused_enemy: Unitbase setget set_focused_enemy
 var focused_enemy_path: NodePath
-var units_in_attack_range: Array = []
+var enemys_in_attack_range: Array = []
 
 var spawn_environment = GameOrganization.OUTSIDE_RUN
 var game_started: bool = false
@@ -53,28 +60,35 @@ var team: String = "PLAYER"
 # onready 
 onready var sprites: Node = get_node("CharacterAnimations")
 onready var collision_zone: Node = get_node("Charactercollision")
-onready var attack_range_collision: Node = get_node("CollisionArea/CollisionShape2D")
 onready var healthbar: Node = get_node("Healthbar")
 onready var manabar: Node = get_node("Manabar")
 onready var damagenumber: Resource = preload("res://Units/UI/Damageindikator.tscn")
 onready var navagent: Node = get_node("NavigationAgent2D")
 onready var navtimer: Node = get_node("NavTimer")
+onready var attack_range_collision_shape: Node = get_node("AttackRangeArea/AttackRangeCollisionShape")
 onready var line_2d = $Line2D
 
 onready var is_placed: bool = false 
+
+
 
 
 func _ready() -> void:
 	match spawn_environment:
 		GameOrganization.OUTSIDE_RUN:
 			set_physics_process(false)
-			sprites.play("Idle")
+			_play_sprite_animation("Idle")
 		GameOrganization.INSIDE_RUN:
 			set_physics_process(true)
-
+	
+	#Vordefinierte Signale von Nodes
+	$AttackRangeArea.connect("body_shape_entered", self, "_on_body_shape_entered")
+	$AttackRangeArea.connect("body_shape_exited", self, "_on_body_shape_exited")
 	connect("update_healthbar", healthbar, "_on_update_healthbar")
 	connect("update_manabar", manabar, "on_update_manabar")
+	connect("focused_enemy_set", self, "_on_focused_enemy_set")
 	manabar.connect("mana_fully_charged", self, "_on_mana_fully_charged")
+	Signals.connect("I_died", self, "_on_unit_died")
 
 #beim instanzieren wird diese Funktion aufgerufen um der Figur zu sagen,
 #ob sie in der Gilde oder im Feld ist 
@@ -85,9 +99,9 @@ func set_spawn_environment(environment) -> void:
 func _on_Shopdetector_mouse_entered() -> void:
 	if spawn_environment == GameOrganization.OUTSIDE_RUN:
 		if !sprites.animation == "Attack_1":
-			sprites.play("Attack_1")
+			_play_sprite_animation("Attack_1")
 			yield(sprites, "animation_finished")
-			sprites.play("Idle")
+			_play_sprite_animation("Idle")
 	
 #setzt die stats des characters
 func set_character_stats(resource: Resource) -> void:
@@ -104,19 +118,24 @@ func set_character_stats(resource: Resource) -> void:
 	
 func prepare_unit() -> void:
 	$AttackcooldownTimer.set_wait_time(1/attack_speed)
-	set_attack_range(attack_range)
-	set_healthbar()
-	set_manabar()
-	
-func set_attack_range(attack_range: float) -> void:
-	attack_range_collision.shape.radius = attack_range
-	
-func set_healthbar() -> void:
+	_set_attack_range_collision()
+	_set_healthbar()
+	_set_manabar()
+	set_targetability(true)
+
+
+func _set_attack_range_collision() -> void:
+	attack_range_collision_shape.shape.radius = attack_range
+
+
+func _set_healthbar() -> void:
 	healthbar.initialize_healthbar(health)
-	
-func set_manabar() -> void:
+
+
+func _set_manabar() -> void:
 	manabar.initialize_manabar(maximum_mana, starting_mana)
-	
+
+
 func _physics_process(delta) -> void:
 	line_2d.global_position = Vector2.ZERO
 	if not is_placed:
@@ -124,70 +143,123 @@ func _physics_process(delta) -> void:
 	else:
 		match state:
 			UnitState.INACTIVE:
-				reset_figure() #Warum?
-				sprites.play("Idle")
-				state = UnitState.SEARCHING_NEXT_ENEMY_TO_ATTACK
+				if is_already_inactive:
+					return
+				_perform_state_inactive()
+				#reset_figure() #Warum?
 
 			UnitState.SEARCHING_NEXT_ENEMY_TO_ATTACK:
-				determin_the_next_enemy_to_attack()
-				state = UnitState.ATTACKING
+				if is_already_searching:
+					return
+				_perform_state_searching()
 
 			UnitState.ATTACKING:
-				navtimer.stop()
-				if already_attacking:
+				if is_already_attacking:
 					return
-				else:
-					if _check_if_enemy_exists(focused_enemy_path):
-						attack_enemy()
-					else:
-						reset_figure()
+				_perform_state_attacking()
+
 
 			UnitState.MOVING:
-				if _check_if_enemy_exists(focused_enemy_path):
-					if attack_range > get_diff_to_enemy(focused_enemy.position) or units_in_attack_range.has(focused_enemy): 
-						state = UnitState.ATTACKING
-						return
-					else:
-						if navagent.is_navigation_finished():
-							return
-						if navtimer.is_stopped():
-							navtimer.start()
-						sprites.play("Moving")
-						var targetpos: Vector2 = navagent.get_next_location()
-						var direction_vector: Vector2 = position.direction_to(targetpos)
-						if direction_vector.x > 0:
-							sprites.flip_h = false
-						else:
-							sprites.flip_h = true
-						var velocity: Vector2 = direction_vector * navagent.max_speed * movement_speed
-						navagent.set_velocity(velocity)
-						
+				if focused_enemy.get_targetability() && !_focused_enemy_is_in_attack_range():
+					_perform_state_moving()
+				elif !focused_enemy.get_targetability():
+					set_state(UnitState.SEARCHING_NEXT_ENEMY_TO_ATTACK)
+				elif focused_enemy.get_targetability() && _focused_enemy_is_in_attack_range():
+					set_state(UnitState.ATTACKING)
 				else:
-					reset_figure()
+					_reset_figure()
+
 			UnitState.CASTING_ABILITY:
-				stop_attack_state()
+				if is_already_casting:
+					return
+				_perform_state_casting()
 
 			UnitState.DEAD:
-#				clear_enemy_team()
-				sprites.play("Death")
-				collision_zone.set_deferred("disabled", true)
-				$AttackcooldownTimer.stop()
-				set_physics_process(false)
+				if is_already_dieing:
+					return
+				_perform_state_dieing()
 				
-				
+
+
+func _perform_state_inactive():
+	_set_all_already_states_false()
+	is_already_inactive = true
+	_play_sprite_animation("Idle")
+	set_state(UnitState.SEARCHING_NEXT_ENEMY_TO_ATTACK)
+
+
+func _perform_state_searching():
+	_set_all_already_states_false()
+	is_already_searching = true
+	_determin_the_next_enemy_to_attack()
+
+
+func _perform_state_attacking():
+	_set_all_already_states_false()
+	is_already_attacking = true
+	_stop_navigationtimer()
+	if focused_enemy.get_targetability():
+		_attack_enemy()
+	else:
+		_reset_figure()
+
+
+func _perform_state_moving():
+	_set_all_already_states_false()
+	if navagent.is_navigation_finished():
+		set_state(UnitState.ATTACKING)
+	if navtimer.is_stopped():
+		navtimer.start()
+	_play_sprite_animation("Moving")
+	var targetpos: Vector2 = navagent.get_next_location()
+	var direction_vector: Vector2 = position.direction_to(targetpos)
+	if direction_vector.x > 0:
+		sprites.flip_h = false
+	else:
+		sprites.flip_h = true
+	var velocity: Vector2 = direction_vector * navagent.max_speed * movement_speed
+	navagent.set_velocity(velocity)
+
+
+func _perform_state_casting():
+	_set_all_already_states_false()
+	is_already_casting = true
+	stop_attack_state()
+
+
+func _perform_state_dieing():
+	_set_all_already_states_false()
+	is_already_dieing = true
+	set_targetability(false)
+	set_physics_process(false)
+	collision_zone.set_deferred("disabled", true)
+	_play_sprite_animation("Death")
+	$AttackcooldownTimer.stop()
+	
+
+func _set_all_already_states_false() -> void:
+	is_already_inactive = false
+	is_already_searching = false
+	is_already_attacking = false
+	is_already_casting = false
+	is_already_dieing = false
+
+
+func _set_navigation_target(target: Node) -> void:
+	navagent.set_target_location(target.global_position)
+
 
 func _on_NavigationAgent2D_velocity_computed(safe_velocity) -> void:
 	move_and_slide(safe_velocity)
 	
 
 func _on_NavTimer_timeout() -> void:
-	if !_check_if_enemy_exists(focused_enemy_path):
-		state = UnitState.INACTIVE
-	else:
-		navagent.set_target_location(focused_enemy.position)
-	
-	
-	
+	if focused_enemy.get_targetability():
+		navagent.set_target_location(focused_enemy.global_position)
+	if !navagent.is_target_reachable():
+		set_state(UnitState.INACTIVE)
+
+
 func _on_NavigationAgent2D_target_reached() -> void:
 	navtimer.stop()
 
@@ -196,14 +268,26 @@ func _on_NavigationAgent2D_path_changed():
 	line_2d.points = navagent.get_nav_path()
 
 
+func _stop_navigationtimer() -> void:
+	if navtimer.is_stopped():
+		return
+	else:
+		navtimer.stop()
+
+func _on_body_shape_entered(body_RID: RID, body: Node, body_shape_index: int, local_shape_index: int) -> void:
+	enemys_in_attack_range.append(body)
 
 
+func _on_body_shape_exited(body_RID: RID, body: Node, body_shape_index: int, local_shape_index: int) -> void:
+	if enemys_in_attack_range.has(body):
+		enemys_in_attack_range.erase(body)
 
-func determin_the_next_enemy_to_attack() -> void:
+
+func _determin_the_next_enemy_to_attack() -> void:
 	if not current_enemy_team.empty():
 		var enemys_with_diffs: Array = get_differences_to_enemys()
 		var closest_enemy = find_closest_enemy(enemys_with_diffs)
-		focused_enemy = closest_enemy
+		set_focused_enemy(closest_enemy)
 		focused_enemy_path = focused_enemy.get_path()
 
 
@@ -232,42 +316,53 @@ func find_closest_enemy(enemys_with_diffs: Array) -> Unitbase:
 	return closest_enemy
 
 
-func attack_enemy() -> void:
-	if _check_if_enemy_exists(focused_enemy_path):
-		if attack_range > get_diff_to_enemy(focused_enemy.position) or units_in_attack_range.has(focused_enemy):
-			perform_attack()
-			already_attacking = true
-			$AttackcooldownTimer.start()
-		else:
-			state = UnitState.MOVING
+func _on_focused_enemy_set():
+	_set_navigation_target(focused_enemy)
+	set_state(UnitState.MOVING)
+
+
+func _attack_enemy() -> void:
+	if focused_enemy.get_targetability() && _focused_enemy_is_in_attack_range():
+		perform_attack()
+		is_already_attacking = true
+		$AttackcooldownTimer.start()
+	elif focused_enemy.get_targetability() && !_focused_enemy_is_in_attack_range():
+		set_state(UnitState.MOVING)
 	else:
-		reset_figure()
+		_reset_figure()
+
+
+func _focused_enemy_is_in_attack_range() -> bool:
+	if enemys_in_attack_range.has(focused_enemy):
+		return true
+	else:
+		return false
 
 
 func perform_attack() -> void:
-	if _check_if_enemy_exists(focused_enemy_path):
+	if focused_enemy.get_targetability() && _focused_enemy_is_in_attack_range():
 			focused_enemy.receive_damage(damage)
 			get_mana(damage)
 	else:
-		reset_figure()
+		_reset_figure()
 		
 		
 func get_mana(damage: int) -> void:
 	var mana_value = damage / 2
 	emit_signal("update_manabar", mana_value)
-	
-	
+
+
 func _on_mana_fully_charged() -> void:
 	perform_special_ability()
 	emit_signal("update_manabar", -100)
 	
 
 func perform_special_ability() -> void:
-	print("special ability")
+	print(self, "special ability")
 	
 	
 func stop_attack_state() -> void:
-	self.already_attacking = false
+	is_already_attacking = false
 	$AttackcooldownTimer.stop()
 	reset_attackcooldowntimer()
 	
@@ -281,7 +376,7 @@ func reset_attackcooldowntimer() -> void:
 	
 
 func _on_focused_enemy_died() -> void:
-	state = UnitState.INACTIVE
+	set_state(UnitState.INACTIVE)
 
 
 
@@ -292,10 +387,10 @@ func receive_damage(damage: int) -> void:
 		emit_signal("update_healthbar", health)
 		spawn_damagenumber(resulted_damage)
 		if health <= 0: 
-			state = UnitState.DEAD
+			set_state(UnitState.DEAD)
 			Signals.emit_signal("I_died", self)
 	elif health <= 0:
-		state = UnitState.DEAD
+		set_state(UnitState.DEAD)
 		Signals.emit_signal("I_died", self)
 		
 		
@@ -323,20 +418,30 @@ func set_turn_info(turn: String) -> void:
 		team = "PLAYER"
 	elif turn == "ENEMY":
 		team = "ENEMY"
-		
+
 
 func start_battle_phase() -> void:
 	set_physics_process(true)
 	if not is_placed:
 		is_placed = true
-		
 
-func get_enemy_team(enemy_team: Array) -> void:
-	self.current_enemy_team = enemy_team
-	if not self.current_enemy_team.has(focused_enemy):
-		state = UnitState.INACTIVE
-	if self.current_enemy_team.size() == 0:
-		deactivate_unit()
+
+func _on_unit_died(unit: Unitbase) -> void:
+	if current_enemy_team.has(unit):
+		delete_unit_from_enemy_team(unit)
+		if unit == focused_enemy:
+			_reset_figure()
+	else:
+		return
+
+
+func delete_unit_from_enemy_team(unit: Unitbase) -> void:
+	current_enemy_team.erase(unit)
+	
+	
+func gather_enemy_team(enemy_team: Array) -> void:
+	current_enemy_team = enemy_team
+
 
 func clear_enemy_team() -> void:
 	current_enemy_team.clear()
@@ -345,7 +450,7 @@ func clear_enemy_team() -> void:
 func deactivate_unit() -> void:
 	navtimer.stop()
 	set_physics_process(false)
-	reset_figure()
+	_reset_figure()
 
 
 func _check_if_enemy_exists(enemy_path: NodePath) -> bool:
@@ -358,10 +463,10 @@ func _check_if_enemy_team_exists() -> bool:
 	else: return true
 	
 
-func reset_figure() -> void:
-	self.state = UnitState.INACTIVE
-	self.focused_enemy = null
-	self.already_attacking = false
+func _reset_figure() -> void:
+	set_state(UnitState.INACTIVE)
+	set_focused_enemy(null)
+	is_already_attacking = false
 	$AttackcooldownTimer.stop()
 	reset_attackcooldowntimer()
 
@@ -372,20 +477,31 @@ func _on_CharacterAnimations_animation_finished() -> void:
 		queue_free()
 
 
-func _on_CollisionArea_body_entered(body) -> void:
-	units_in_attack_range.append(body)
+# Optische Sachen
+func _play_sprite_animation(animation: String) -> void:
+	if animation == sprites.animation:
+		return
+	else:
+		sprites.play(animation)
 
 
-func _on_CollisionArea_body_exited(body) -> void:
-	units_in_attack_range.erase(body)
+# Setter und Getter
+func set_state(new_state)-> void:
+	if new_state == state:
+		return
+	else:
+		state = new_state
 
 
+func set_targetability(value: bool) -> void:
+	is_targetable = value
 
 
+func get_targetability() -> bool:
+	return is_targetable
 
 
-
-
-
-
-
+func set_focused_enemy(value: Unitbase) -> void:
+	focused_enemy = value
+	if !value == null:
+		emit_signal("focused_enemy_set")
