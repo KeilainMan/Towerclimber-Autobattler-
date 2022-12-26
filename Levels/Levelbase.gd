@@ -55,7 +55,7 @@ func instance_level_number_x(level: int) -> void:
 	var new_level = newly_build_level.instance()
 	add_child(new_level)
 	move_child(new_level, 0)
-	Signals.emit_signal("levelbackground_instanced", "LEVELBACKGROUND")
+
 
 
 func _on_level_instanced():
@@ -166,10 +166,8 @@ func check_if_level_is_over(unit_team: String) -> void:
 func delete_unit_from_team(unit: Unitbase, team: String) -> void:
 	if team == "PLAYER":
 		player_team.erase(unit)
-		update_enemy_teams()
 	elif team == "ENEMY":
 		all_enemys.erase(unit)
-		update_enemy_teams()
 
 
 # BATTLE INITIALIZATION FUNCTIONS AND ONGOING BATTLE FUNCTIONS
@@ -183,9 +181,9 @@ func _on_StartGameButton_pressed() -> void:
 	# sends all units the their corresponding enemys
 func update_enemy_teams() -> void:
 	for player_unit in player_team:
-		player_unit.get_enemy_team(all_enemys)
+		player_unit.gather_enemy_team(all_enemys)
 	for enemy_unit in all_enemys:
-		enemy_unit.get_enemy_team(player_team)
+		enemy_unit.gather_enemy_team(player_team)
 
 
 	# activates battleprocess in units

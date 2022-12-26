@@ -14,7 +14,7 @@ func _ready():
 func perform_attack():
 	if _check_if_enemy_exists(focused_enemy_path):
 		if sprites.animation == "Attack_1":
-			sprites.play("Attack_2")
+			_play_sprite_animation("Attack_2")
 		elif !sprites.animation == "Attack_1":
-			sprites.play("Attack_1")
+			_play_sprite_animation("Attack_1")
 	.perform_attack()

@@ -12,5 +12,5 @@ func perform_attack():
 		if sprites.animation == "Attack_1":
 			sprites.frame = 0
 		elif !sprites.animation == "Attack_1":
-			sprites.play("Attack_1")
+			_play_sprite_animation("Attack_1")
 	.perform_attack()

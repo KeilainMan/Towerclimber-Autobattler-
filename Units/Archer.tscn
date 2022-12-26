@@ -202,7 +202,7 @@ position = Vector2( -1, 8 )
 margin_top = 8.0
 margin_bottom = 48.0
 
-[node name="Shopdetector" parent="." index="6"]
+[node name="Shopdetector" parent="." index="5"]
 visible = false
 
 [node name="CollisionShape2D" parent="Shopdetector" index="0"]

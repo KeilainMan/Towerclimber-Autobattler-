@@ -178,9 +178,6 @@ margin_bottom = -21.0
 margin_top = 16.0
 margin_bottom = 56.0
 
-[node name="CollisionShape2D" parent="CollisionArea" index="0"]
-position = Vector2( 1, 5 )
-
 [node name="CollisionShape2D" parent="Shopdetector" index="0"]
 position = Vector2( 0, 5 )
 
