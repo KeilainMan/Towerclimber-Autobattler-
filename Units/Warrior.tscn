@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=2]
+[gd_scene load_steps=56 format=2]
 
 [ext_resource path="res://Units/Unitbase.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Units/Warrior.gd" type="Script" id=2]
@@ -226,13 +226,16 @@ animations = [ {
 [sub_resource type="CircleShape2D" id=1]
 radius = 11.0
 
+[sub_resource type="CircleShape2D" id=99]
+resource_local_to_scene = true
+
 [node name="KinematicBody2D" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 ability_damage = 50
 
 [node name="CharacterAnimations" parent="." index="0"]
 frames = SubResource( 98 )
-frame = 8
+frame = 2
 
 [node name="Charactercollision" parent="." index="1"]
 position = Vector2( -1, 16 )
@@ -249,5 +252,8 @@ position = Vector2( 0, 1 )
 
 [node name="NavigationAgent2D" parent="." index="6"]
 target_desired_distance = 50.0
+
+[node name="AttackRangeCollisionShape" parent="AttackRangeArea" index="0"]
+shape = SubResource( 99 )
 
 [editable path="Healthbar"]
