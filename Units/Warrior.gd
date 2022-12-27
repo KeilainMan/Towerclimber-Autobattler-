@@ -18,8 +18,10 @@ func perform_attack() -> void:
 			_play_sprite_animation("Attack_1")
 	.perform_attack()
 
+
 #special ability: teleportiert sich zu den nächsten 4 Gegner und fügt Schaden zu (wie Alpha Strike)
 func perform_special_ability() -> void:
+	stop_attack_state()
 	state = UnitState.CASTING_ABILITY
 	var start_position: Vector2 = position
 	var enemys_hit_by_ability: Array = get_enemys_hit_by_ability()
@@ -36,8 +38,8 @@ func perform_special_ability() -> void:
 	
 	position = start_position
 	state = UnitState.INACTIVE
-	
-	
+
+
 func get_enemys_hit_by_ability() -> Array:
 	var enemys_with_diffs: Array = get_differences_to_enemys()
 	var enemys_that_will_get_hit: Array = []
@@ -49,7 +51,7 @@ func get_enemys_hit_by_ability() -> Array:
 		enemys_with_diffs.erase(closest_enemy)
 	return enemys_that_will_get_hit
 
-	
+
 func find_closest_enemy_for_ability(enemys_with_diffs) -> Array:
 	var smallest: int = 100000
 	var enemy_with_distance
@@ -58,10 +60,16 @@ func find_closest_enemy_for_ability(enemys_with_diffs) -> Array:
 			smallest = i[1]
 			enemy_with_distance = i
 	return enemy_with_distance
-	
-	
+
+
 func teleport_in_front_of_enemy(enemy_position: Vector2) -> void:
 	position = enemy_position - Vector2(25, 0)
+
+
+func stop_attack_state() -> void:
+	is_already_attacking = false
+	$AttackcooldownTimer.stop()
+	reset_attackcooldowntimer()
 
 
 func perform_ability_damage(enemy: Unitbase) -> void:

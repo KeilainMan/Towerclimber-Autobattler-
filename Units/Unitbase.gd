@@ -47,6 +47,8 @@ var is_already_dieing: bool = false
 
 var is_targetable: bool = false setget set_targetability, get_targetability
 
+var ongoing_ability_running: bool = false
+
 #maprelevant information
 var current_enemy_team: Array = []
 var focused_enemy: Unitbase setget set_focused_enemy
@@ -117,11 +119,15 @@ func set_character_stats(resource: Resource) -> void:
 	traits = resource.traits
 	
 func prepare_unit() -> void:
-	$AttackcooldownTimer.set_wait_time(1/attack_speed)
+	set_attackcooldowntimer(1/attack_speed)
 	_set_attack_range_collision()
 	_set_healthbar()
 	_set_manabar()
 	set_targetability(true)
+
+
+func set_attackcooldowntimer(time: float) -> void:
+	$AttackcooldownTimer.set_wait_time(time)
 
 
 func _set_attack_range_collision() -> void:
@@ -224,7 +230,6 @@ func _perform_state_moving():
 func _perform_state_casting():
 	_set_all_already_states_false()
 	is_already_casting = true
-	stop_attack_state()
 
 
 func _perform_state_dieing():
@@ -304,8 +309,8 @@ func get_differences_to_enemys() -> Array:
 
 func get_diff_to_enemy(e_position: Vector2) -> float:
 	return position.distance_to(e_position)
-	
-	
+
+
 func find_closest_enemy(enemys_with_diffs: Array) -> Unitbase:
 	var smallest: int = 100_000
 	var closest_enemy: Unitbase
@@ -345,35 +350,32 @@ func perform_attack() -> void:
 			get_mana(damage)
 	else:
 		_reset_figure()
-		
-		
+
+
 func get_mana(damage: int) -> void:
-	var mana_value = damage / 2
-	emit_signal("update_manabar", mana_value)
+	if !ongoing_ability_running:
+		var mana_value = damage / 2
+		emit_signal("update_manabar", mana_value)
+	else:
+		return
 
 
 func _on_mana_fully_charged() -> void:
 	perform_special_ability()
 	emit_signal("update_manabar", -100)
-	
+
 
 func perform_special_ability() -> void:
 	print(self, "special ability")
-	
-	
-func stop_attack_state() -> void:
-	is_already_attacking = false
-	$AttackcooldownTimer.stop()
-	reset_attackcooldowntimer()
-	
-	
+
+
 func _on_AttackcooldownTimer_timeout() -> void:
 	perform_attack()
-	
+
 
 func reset_attackcooldowntimer() -> void:
 	$AttackcooldownTimer.set_wait_time(1/attack_speed)
-	
+
 
 func _on_focused_enemy_died() -> void:
 	set_state(UnitState.INACTIVE)

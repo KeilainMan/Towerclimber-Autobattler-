@@ -6,13 +6,13 @@
 script = ExtResource( 1 )
 character_name = ""
 character_discription = ""
-health = 70
+health = 250
 damage = 35
 ranged = true
 attack_range = 150
-attack_speed = 0.6
+attack_speed = 0.8
 movement_speed = 50
 armor = 1
-starting_mana = 50
-maximum_mana = 100
+starting_mana = 59
+maximum_mana = 60
 traits = [ "Archer", "Elves" ]

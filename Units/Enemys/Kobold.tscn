@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://Units/Unitbase.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Units/Enemys/Kobold.gd" type="Script" id=2]
@@ -161,6 +161,9 @@ animations = [ {
 [sub_resource type="CircleShape2D" id=1]
 radius = 6.0
 
+[sub_resource type="CircleShape2D" id=79]
+resource_local_to_scene = true
+
 [node name="Kobold" groups=["enemy"] instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
@@ -171,5 +174,8 @@ frames = SubResource( 78 )
 
 [node name="Charactercollision" parent="." index="1"]
 shape = SubResource( 1 )
+
+[node name="AttackRangeCollisionShape" parent="AttackRangeArea" index="0"]
+shape = SubResource( 79 )
 
 [editable path="Healthbar"]

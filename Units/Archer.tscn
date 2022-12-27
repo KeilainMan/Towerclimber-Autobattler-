@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://assets/Testassets_Archer/Ranger Base/Ranger Base/Spritesheets/Full Spritesheet/Ranger Base Spritesheet.png" type="Texture" id=1]
 [ext_resource path="res://Units/Unitbase.tscn" type="PackedScene" id=2]
@@ -187,26 +187,37 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="CircleShape2D" id=107]
+resource_local_to_scene = true
+
 [node name="Unitbase" instance=ExtResource( 2 )]
 script = ExtResource( 3 )
+attack_speed_modifier = 5.0
+attack_damage_modifier = 3.0
+buff_time = 4
 
 [node name="CharacterAnimations" parent="." index="0"]
 position = Vector2( 3, -12 )
 frames = SubResource( 106 )
+frame = 4
 
 [node name="Charactercollision" parent="." index="1"]
-visible = false
 position = Vector2( -1, 8 )
 
 [node name="Manabar" parent="." index="4"]
 margin_top = 8.0
 margin_bottom = 48.0
 
-[node name="Shopdetector" parent="." index="5"]
-visible = false
-
 [node name="CollisionShape2D" parent="Shopdetector" index="0"]
-visible = false
 position = Vector2( 0, -2 )
+
+[node name="AttackRangeCollisionShape" parent="AttackRangeArea" index="0"]
+shape = SubResource( 107 )
+
+[node name="AbilityBuffTimer" type="Timer" parent="." index="10"]
+process_mode = 0
+one_shot = true
+
+[connection signal="timeout" from="AbilityBuffTimer" to="." method="_on_AbilityBuffTimer_timeout"]
 
 [editable path="Healthbar"]

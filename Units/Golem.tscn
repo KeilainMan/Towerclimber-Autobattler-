@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://Units/Unitbase.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Units/Golem.gd" type="Script" id=2]
@@ -158,6 +158,9 @@ animations = [ {
 "speed": 5.0
 } ]
 
+[sub_resource type="CircleShape2D" id=96]
+resource_local_to_scene = true
+
 [node name="Unitbase" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
@@ -180,5 +183,8 @@ margin_bottom = 56.0
 
 [node name="CollisionShape2D" parent="Shopdetector" index="0"]
 position = Vector2( 0, 5 )
+
+[node name="AttackRangeCollisionShape" parent="AttackRangeArea" index="0"]
+shape = SubResource( 96 )
 
 [editable path="Healthbar"]
