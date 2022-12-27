@@ -4,8 +4,8 @@ onready var archer_resource = load("res://Units/Archer.tres")
 
 onready var ability_buff_timer: Node = get_node("AbilityBuffTimer")
 
-export var attack_speed_modifier: float = 5 # in Prozent
-export var attack_damage_modifier: float = 3 # in Prozent
+export var attack_speed_modifier: float = 4 # in Prozent
+export var attack_damage_modifier: float = 2 # in Prozent
 export var buff_time: int = 4
 var base_damage: int 
 var base_attack_speed: float

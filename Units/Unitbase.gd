@@ -128,13 +128,7 @@ func prepare_unit() -> void:
 
 func set_attackcooldowntimer(time: float) -> void:
 	$AttackcooldownTimer.set_wait_time(time)
-#	if !$AttackcooldownTimer.is_stopped():
-#		$AttackcooldownTimer.stop()
-#
-#		if is_placed:
-#			$AttackcooldownTimer.start()
-#	else:
-#		$AttackcooldownTimer.set_wait_time(time)
+
 
 func _set_attack_range_collision() -> void:
 	attack_range_collision_shape.shape.radius = attack_range
