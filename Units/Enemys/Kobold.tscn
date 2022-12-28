@@ -159,12 +159,13 @@ animations = [ {
 } ]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 6.0
+radius = 13.1529
 
 [sub_resource type="CircleShape2D" id=79]
 resource_local_to_scene = true
 
 [node name="Kobold" groups=["enemy"] instance=ExtResource( 1 )]
+scale = Vector2( 2.5, 2.5 )
 script = ExtResource( 2 )
 
 [node name="CharacterAnimations" parent="." index="0"]
@@ -174,6 +175,9 @@ frames = SubResource( 78 )
 
 [node name="Charactercollision" parent="." index="1"]
 shape = SubResource( 1 )
+
+[node name="Shopdetector" parent="." index="5"]
+visible = false
 
 [node name="AttackRangeCollisionShape" parent="AttackRangeArea" index="0"]
 shape = SubResource( 79 )

@@ -10,6 +10,7 @@ func _ready():
 	set_character_stats(kobold_resource)
 	prepare_unit()
 	
+	
 
 func perform_attack():
 	if _check_if_enemy_exists(focused_enemy_path):
@@ -18,3 +19,5 @@ func perform_attack():
 		elif !sprites.animation == "Attack_1":
 			_play_sprite_animation("Attack_1")
 	.perform_attack()
+
+

@@ -16,14 +16,19 @@ func initialize_manabar(maximum_mana: int, starting_mana: int) -> void:
 	manabar.value = starting_mana
 	
 	
-func on_update_manabar(added_mana: int) -> void:
-	if added_mana == -100:
-		update_tween.interpolate_property(manabar, "value", manabar.value, 0, 1.25, Tween.EASE_OUT, Tween.TRANS_LINEAR)
-		update_tween.start()
-	else:
-		var new_mana_value: int = manabar.value + added_mana
-		update_tween.interpolate_property(manabar, "value", manabar.value, new_mana_value, 0.25, Tween.EASE_OUT, Tween.TRANS_LINEAR)
-		update_tween.start()
+func on_mana_udpated(new_mana: int) -> void:
+	if !new_mana == 0:
+		manabar.value = new_mana
 		if manabar.value >= manabar.max_value:
 			emit_signal("mana_fully_charged")
+#		update_tween.interpolate_property(manabar, "value", manabar.value, 0, 1.25, Tween.EASE_OUT, Tween.TRANS_LINEAR)
+#		update_tween.start()
+	else:
+		return
+		#update_tween.interpolate_property(manabar, "value", manabar.value, new_mana, 0.25, Tween.EASE_OUT, Tween.TRANS_LINEAR)
+		#update_tween.start()
+		
 
+
+func _on_ability_casted() -> void:
+	manabar.value = 0

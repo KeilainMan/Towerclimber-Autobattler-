@@ -13,6 +13,6 @@ attack_range = 50
 attack_speed = 0.7
 movement_speed = 75
 armor = 2
-starting_mana = 90
+starting_mana = 0
 maximum_mana = 100
 traits = [ "Knight", "Fighter" ]

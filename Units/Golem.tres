@@ -6,13 +6,13 @@
 script = ExtResource( 1 )
 character_name = ""
 character_discription = ""
-health = 350
-damage = 5
+health = 1000
+damage = 25
 ranged = false
 attack_range = 50.0
 attack_speed = 0.35
 movement_speed = 50
 armor = 10
-starting_mana = 50
-maximum_mana = 100
+starting_mana = 80
+maximum_mana = 120
 traits = [ "Golem", "Hard" ]
