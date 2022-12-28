@@ -66,12 +66,6 @@ func teleport_in_front_of_enemy(enemy_position: Vector2) -> void:
 	position = enemy_position - Vector2(25, 0)
 
 
-func stop_attack_state() -> void:
-	is_already_attacking = false
-	$AttackcooldownTimer.stop()
-	reset_attackcooldowntimer()
-
-
 func perform_ability_damage(enemy: Unitbase) -> void:
 	if sprites.animation == "Attack_1":
 		_play_sprite_animation("Attack_2")

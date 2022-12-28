@@ -199,7 +199,7 @@ buff_time = 4
 [node name="CharacterAnimations" parent="." index="0"]
 position = Vector2( 3, -12 )
 frames = SubResource( 106 )
-frame = 4
+frame = 0
 
 [node name="Charactercollision" parent="." index="1"]
 position = Vector2( -1, 8 )

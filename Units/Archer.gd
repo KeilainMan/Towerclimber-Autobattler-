@@ -45,6 +45,10 @@ func safe_pre_ability_stats() -> void:
 
 
 func _on_AbilityBuffTimer_timeout() -> void:
+	_finish_ability()
+
+
+func _finish_ability() -> void:
 	_reset_to_base_stats()
 	ability_buff_timer.one_shot = true
 	ongoing_ability_running = false

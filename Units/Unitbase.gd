@@ -6,8 +6,12 @@ class_name Unitbase
 signal damage_enemy()
 signal I_died()
 signal update_healthbar()
-signal update_manabar()
+signal mana_udpated()
+signal ability_casted()
 signal focused_enemy_set()
+
+# status effects
+onready var stun_effect: Script = preload("res://Units/StatusEffects/Stun.gd")
 
 # statemachine
 enum UnitState {
@@ -34,8 +38,10 @@ var attack_speed: float
 var movement_speed: int 
 var armor: int 
 var starting_mana: int 
-var maximum_mana: int 
+var maximum_mana: int
 var traits: Array
+
+var current_mana: int setget set_current_mana
 
 #public
 var state = UnitState.INACTIVE setget set_state
@@ -64,7 +70,7 @@ onready var sprites: Node = get_node("CharacterAnimations")
 onready var collision_zone: Node = get_node("Charactercollision")
 onready var healthbar: Node = get_node("Healthbar")
 onready var manabar: Node = get_node("Manabar")
-onready var damagenumber: Resource = preload("res://Units/UI/Damageindikator.tscn")
+onready var damagenumber: PackedScene = preload("res://Units/UI/Damageindikator.tscn")
 onready var navagent: Node = get_node("NavigationAgent2D")
 onready var navtimer: Node = get_node("NavTimer")
 onready var attack_range_collision_shape: Node = get_node("AttackRangeArea/AttackRangeCollisionShape")
@@ -87,9 +93,11 @@ func _ready() -> void:
 	$AttackRangeArea.connect("body_shape_entered", self, "_on_body_shape_entered")
 	$AttackRangeArea.connect("body_shape_exited", self, "_on_body_shape_exited")
 	connect("update_healthbar", healthbar, "_on_update_healthbar")
-	connect("update_manabar", manabar, "on_update_manabar")
+	connect("mana_udpated", manabar, "on_mana_udpated")
 	connect("focused_enemy_set", self, "_on_focused_enemy_set")
 	manabar.connect("mana_fully_charged", self, "_on_mana_fully_charged")
+	connect("ability_casted", self, "_on_ability_casted")
+	connect("ability_casted", manabar, "_on_ability_casted")
 	Signals.connect("I_died", self, "_on_unit_died")
 
 #beim instanzieren wird diese Funktion aufgerufen um der Figur zu sagen,
@@ -117,12 +125,13 @@ func set_character_stats(resource: Resource) -> void:
 	starting_mana = resource.starting_mana
 	maximum_mana = resource.maximum_mana
 	traits = resource.traits
-	
+
+
 func prepare_unit() -> void:
 	set_attackcooldowntimer(1/attack_speed)
 	_set_attack_range_collision()
 	_set_healthbar()
-	_set_manabar()
+	_set_mana_and_manabar()
 	set_targetability(true)
 
 
@@ -138,8 +147,9 @@ func _set_healthbar() -> void:
 	healthbar.initialize_healthbar(health)
 
 
-func _set_manabar() -> void:
+func _set_mana_and_manabar() -> void:
 	manabar.initialize_manabar(maximum_mana, starting_mana)
+	set_current_mana(starting_mana)
 
 
 func _physics_process(delta) -> void:
@@ -279,6 +289,7 @@ func _stop_navigationtimer() -> void:
 	else:
 		navtimer.stop()
 
+
 func _on_body_shape_entered(body_RID: RID, body: Node, body_shape_index: int, local_shape_index: int) -> void:
 	enemys_in_attack_range.append(body)
 
@@ -354,19 +365,24 @@ func perform_attack() -> void:
 
 func get_mana(damage: int) -> void:
 	if !ongoing_ability_running:
-		var mana_value = damage / 2
-		emit_signal("update_manabar", mana_value)
+		var new_mana_value = current_mana + damage / 2
+		set_current_mana(new_mana_value)
 	else:
 		return
 
 
 func _on_mana_fully_charged() -> void:
+	emit_signal("ability_casted")
 	perform_special_ability()
-	emit_signal("update_manabar", -100)
+	
 
 
 func perform_special_ability() -> void:
 	print(self, "special ability")
+
+
+func _on_ability_casted() -> void:
+	set_current_mana(0)
 
 
 func _on_AttackcooldownTimer_timeout() -> void:
@@ -376,6 +392,12 @@ func _on_AttackcooldownTimer_timeout() -> void:
 func reset_attackcooldowntimer() -> void:
 	$AttackcooldownTimer.set_wait_time(1/attack_speed)
 
+
+func stop_attack_state() -> void:
+	is_already_attacking = false
+	$AttackcooldownTimer.stop()
+	reset_attackcooldowntimer()
+	
 
 func _on_focused_enemy_died() -> void:
 	set_state(UnitState.INACTIVE)
@@ -402,11 +424,15 @@ func spawn_damagenumber(resulted_damage: int) -> void:
 	new_damagenumber.global_position = position
 	get_tree().current_scene.add_child(new_damagenumber)
 	new_damagenumber.label.text = str(resulted_damage)
-	
 
-func get_moving_vector() -> Vector2:
-	var direction: Vector2 = self.focused_enemy.position - position 
-	return direction.normalized()
+
+func apply_stun_effect(stun_duration: float) -> void:
+	for child in get_children():
+		if child.has_method("get_status_effect"):
+			if child.get_status_effect() == "Stun":
+				child.queue_free()
+	var new_stun_effect = stun_effect.new(stun_duration)
+	add_child(new_stun_effect)
 
 
 func set_unit_to_tile(tileposition: Vector2):
@@ -507,3 +533,8 @@ func set_focused_enemy(value: Unitbase) -> void:
 	focused_enemy = value
 	if !value == null:
 		emit_signal("focused_enemy_set")
+
+
+func set_current_mana(new_current_mana: int) -> void:
+	current_mana = new_current_mana
+	emit_signal("mana_udpated", current_mana)
