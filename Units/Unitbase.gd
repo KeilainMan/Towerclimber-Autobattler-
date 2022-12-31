@@ -58,7 +58,7 @@ var is_targetable: bool = false setget set_targetability, get_targetability
 var ongoing_ability_running: bool = false
 
 #maprelevant information
-var current_enemy_team: Array = []
+var current_enemy_team: Array = [] setget set_current_enemy_team
 var focused_enemy: Unitbase setget set_focused_enemy
 var focused_enemy_path: NodePath
 var enemys_in_attack_range: Array = []
@@ -415,11 +415,6 @@ func stop_attack_state() -> void:
 	is_already_attacking = false
 	$AttackcooldownTimer.stop()
 	reset_attackcooldowntimer()
-	
-
-#func _on_focused_enemy_died() -> void:
-#	set_state(UnitState.INACTIVE)
-#
 
 
 func receive_damage(damage: int) -> void:
@@ -434,9 +429,8 @@ func receive_damage(damage: int) -> void:
 	elif health <= 0:
 		set_state(UnitState.DEAD)
 		Signals.emit_signal("I_died", self)
-		
-		
-		
+
+
 func spawn_damagenumber(resulted_damage: int) -> void:
 	var new_damagenumber = damagenumber.instance()
 	new_damagenumber.global_position = position
@@ -478,47 +472,27 @@ func _on_unit_died(unit: Unitbase) -> void:
 		if unit == focused_enemy:
 			_reset_figure()
 	else:
-		return
+		pass
 	if current_enemy_team.empty():
 		set_state(UnitState.CELEBRATING)
 
 
 func delete_unit_from_enemy_team(unit: Unitbase) -> void:
 	current_enemy_team.erase(unit)
-	
-	
-func gather_enemy_team(enemy_team: Array) -> void:
-	current_enemy_team = enemy_team
-
-
-func clear_enemy_team() -> void:
-	current_enemy_team.clear()
-
-
-func _check_if_enemy_exists(enemy_path: NodePath) -> bool:
-	return get_tree().get_root().has_node(enemy_path)
 
 
 func _check_if_enemy_team_exists() -> bool:
 	if current_enemy_team.empty():
 		return false
-	else: return true
+	else:
+		return true
 	
 
 func ckeck_for_targetability(target: Unitbase) -> bool:
 	if is_instance_valid(target):
 		return true
 	else: return false
-#	if target.has_method("get_targetability"):
-#		if target.get_targetability():
-#			return true
-#		else:
-#			return false
-#	else: 
-#		return false
-	
-	
-	
+
 
 func _reset_figure() -> void:
 	set_state(UnitState.INACTIVE)
@@ -551,8 +525,6 @@ func _play_sprite_animation(animation: String) -> void:
 
 
 func _on_Unitbase_tree_exiting() -> void:
-	yield(get_tree().create_timer(1.5), "timeout")
-	print(self, "exiting")
 	queue_free()
 
 
@@ -583,4 +555,6 @@ func set_current_mana(new_current_mana: int) -> void:
 	emit_signal("mana_udpated", current_mana)
 
 
+func set_current_enemy_team(enemy_team: Array) -> void:
+	current_enemy_team = enemy_team
 

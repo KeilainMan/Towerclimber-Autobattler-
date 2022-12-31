@@ -172,7 +172,7 @@ script = ExtResource( 2 )
 position = Vector2( 0, 0 )
 scale = Vector2( 0.328125, 0.328125 )
 frames = SubResource( 78 )
-frame = 0
+frame = 2
 
 [node name="Charactercollision" parent="." index="1"]
 shape = SubResource( 1 )
