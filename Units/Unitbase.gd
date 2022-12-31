@@ -21,6 +21,7 @@ enum UnitState {
 	ATTACKING,
 	CASTING_ABILITY,
 	DEAD,
+	CELEBRATING,
 }
 
 # gameorganization
@@ -50,6 +51,7 @@ var is_already_searching: bool = false
 var is_already_attacking: bool = false
 var is_already_casting: bool = false
 var is_already_dieing: bool = false
+var is_already_celebrating: bool = false
 
 var is_targetable: bool = false setget set_targetability, get_targetability
 
@@ -176,11 +178,11 @@ func _physics_process(delta) -> void:
 
 
 			UnitState.MOVING:
-				if focused_enemy.get_targetability() && !_focused_enemy_is_in_attack_range():
+				if ckeck_for_targetability(focused_enemy) && !_focused_enemy_is_in_attack_range():
 					_perform_state_moving()
-				elif !focused_enemy.get_targetability():
+				elif !ckeck_for_targetability(focused_enemy):
 					set_state(UnitState.SEARCHING_NEXT_ENEMY_TO_ATTACK)
-				elif focused_enemy.get_targetability() && _focused_enemy_is_in_attack_range():
+				elif ckeck_for_targetability(focused_enemy) && _focused_enemy_is_in_attack_range():
 					set_state(UnitState.ATTACKING)
 				else:
 					_reset_figure()
@@ -194,6 +196,11 @@ func _physics_process(delta) -> void:
 				if is_already_dieing:
 					return
 				_perform_state_dieing()
+				
+			UnitState.CELEBRATING:
+				if is_already_celebrating:
+					return
+				_perform_state_celebrating()
 				
 
 
@@ -214,7 +221,7 @@ func _perform_state_attacking():
 	_set_all_already_states_false()
 	is_already_attacking = true
 	_stop_navigationtimer()
-	if focused_enemy.get_targetability():
+	if ckeck_for_targetability(focused_enemy):
 		_attack_enemy()
 	else:
 		_reset_figure()
@@ -251,6 +258,16 @@ func _perform_state_dieing():
 	_play_sprite_animation("Death")
 	$AttackcooldownTimer.stop()
 	
+	
+func _perform_state_celebrating():
+	stop_attack_state()
+	_set_all_already_states_false()
+	is_already_celebrating = true
+	deactivate_unit()
+	set_physics_process(false)
+	_play_sprite_animation("Idle")
+	
+	
 
 func _set_all_already_states_false() -> void:
 	is_already_inactive = false
@@ -258,6 +275,7 @@ func _set_all_already_states_false() -> void:
 	is_already_attacking = false
 	is_already_casting = false
 	is_already_dieing = false
+	is_already_celebrating = false
 
 
 func _set_navigation_target(target: Node) -> void:
@@ -269,14 +287,14 @@ func _on_NavigationAgent2D_velocity_computed(safe_velocity) -> void:
 	
 
 func _on_NavTimer_timeout() -> void:
-	if focused_enemy.get_targetability():
+	if ckeck_for_targetability(focused_enemy):
 		navagent.set_target_location(focused_enemy.global_position)
 	if !navagent.is_target_reachable():
 		set_state(UnitState.INACTIVE)
 
 
 func _on_NavigationAgent2D_target_reached() -> void:
-	navtimer.stop()
+	_stop_navigationtimer()
 
 	
 func _on_NavigationAgent2D_path_changed():
@@ -338,11 +356,11 @@ func _on_focused_enemy_set():
 
 
 func _attack_enemy() -> void:
-	if focused_enemy.get_targetability() && _focused_enemy_is_in_attack_range():
+	if ckeck_for_targetability(focused_enemy) && _focused_enemy_is_in_attack_range():
 		perform_attack()
 		is_already_attacking = true
 		$AttackcooldownTimer.start()
-	elif focused_enemy.get_targetability() && !_focused_enemy_is_in_attack_range():
+	elif ckeck_for_targetability(focused_enemy) && !_focused_enemy_is_in_attack_range():
 		set_state(UnitState.MOVING)
 	else:
 		_reset_figure()
@@ -356,16 +374,16 @@ func _focused_enemy_is_in_attack_range() -> bool:
 
 
 func perform_attack() -> void:
-	if focused_enemy.get_targetability() && _focused_enemy_is_in_attack_range():
+	if ckeck_for_targetability(focused_enemy) && _focused_enemy_is_in_attack_range():
 			focused_enemy.receive_damage(damage)
-			get_mana(damage)
+			get_mana()
 	else:
 		_reset_figure()
 
 
-func get_mana(damage: int) -> void:
+func get_mana() -> void:
 	if !ongoing_ability_running:
-		var new_mana_value = current_mana + damage / 2
+		var new_mana_value = current_mana + 12
 		set_current_mana(new_mana_value)
 	else:
 		return
@@ -399,9 +417,9 @@ func stop_attack_state() -> void:
 	reset_attackcooldowntimer()
 	
 
-func _on_focused_enemy_died() -> void:
-	set_state(UnitState.INACTIVE)
-
+#func _on_focused_enemy_died() -> void:
+#	set_state(UnitState.INACTIVE)
+#
 
 
 func receive_damage(damage: int) -> void:
@@ -461,6 +479,8 @@ func _on_unit_died(unit: Unitbase) -> void:
 			_reset_figure()
 	else:
 		return
+	if current_enemy_team.empty():
+		set_state(UnitState.CELEBRATING)
 
 
 func delete_unit_from_enemy_team(unit: Unitbase) -> void:
@@ -473,12 +493,6 @@ func gather_enemy_team(enemy_team: Array) -> void:
 
 func clear_enemy_team() -> void:
 	current_enemy_team.clear()
-	
-
-func deactivate_unit() -> void:
-	navtimer.stop()
-	set_physics_process(false)
-	_reset_figure()
 
 
 func _check_if_enemy_exists(enemy_path: NodePath) -> bool:
@@ -491,18 +505,41 @@ func _check_if_enemy_team_exists() -> bool:
 	else: return true
 	
 
+func ckeck_for_targetability(target: Unitbase) -> bool:
+	if is_instance_valid(target):
+		return true
+	else: return false
+#	if target.has_method("get_targetability"):
+#		if target.get_targetability():
+#			return true
+#		else:
+#			return false
+#	else: 
+#		return false
+	
+	
+	
+
 func _reset_figure() -> void:
 	set_state(UnitState.INACTIVE)
 	set_focused_enemy(null)
 	is_already_attacking = false
+	_stop_navigationtimer()
 	$AttackcooldownTimer.stop()
 	reset_attackcooldowntimer()
 
 
+func deactivate_unit() -> void:
+	_stop_navigationtimer()
+	$AttackcooldownTimer.stop()
+	set_physics_process(false)
+	set_targetability(false)
+
+
 func _on_CharacterAnimations_animation_finished() -> void:
 	if sprites.animation == "Death":
-		yield(get_tree().create_timer(1.5), "timeout")
-		queue_free()
+		print(self, "Deathanimation finished")
+		Signals.emit_signal("already_died_please_remove", self)
 
 
 # Optische Sachen
@@ -511,6 +548,12 @@ func _play_sprite_animation(animation: String) -> void:
 		return
 	else:
 		sprites.play(animation)
+
+
+func _on_Unitbase_tree_exiting() -> void:
+	yield(get_tree().create_timer(1.5), "timeout")
+	print(self, "exiting")
+	queue_free()
 
 
 # Setter und Getter
@@ -538,3 +581,6 @@ func set_focused_enemy(value: Unitbase) -> void:
 func set_current_mana(new_current_mana: int) -> void:
 	current_mana = new_current_mana
 	emit_signal("mana_udpated", current_mana)
+
+
+

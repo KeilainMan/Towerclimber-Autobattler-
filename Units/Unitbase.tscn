@@ -225,6 +225,7 @@ wait_time = 0.05
 [node name="AttackRangeCollisionShape" type="CollisionShape2D" parent="AttackRangeArea"]
 shape = SubResource( 95 )
 
+[connection signal="tree_exiting" from="." to="." method="_on_Unitbase_tree_exiting"]
 [connection signal="animation_finished" from="CharacterAnimations" to="." method="_on_CharacterAnimations_animation_finished"]
 [connection signal="timeout" from="AttackcooldownTimer" to="." method="_on_AttackcooldownTimer_timeout"]
 [connection signal="mouse_entered" from="Shopdetector" to="." method="_on_Shopdetector_mouse_entered"]

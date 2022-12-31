@@ -55,8 +55,8 @@ func instance_playerpositions() -> void:
 func instance_enemys() -> void:
 	enemys_of_this_level.shuffle()
 	var new_enemys: Node = enemys_of_this_level[0].instance()
+	#get_tree().get_root().get_node("Runscene").get_node("LevelBase").get_node("Units").call_deferred("add_child", new_enemys)
 	call_deferred("add_child", new_enemys)
-
 
 
 func _on_child_entered_tree(childnode: Node) -> void:
