@@ -11,7 +11,7 @@ func _ready() -> void:
 	
 
 func perform_attack() -> void:
-	if ckeck_for_targetability(focused_enemy):
+	if is_focused_enemy_viable(focused_enemy):
 		if sprites.animation == "Attack_1":
 			_play_sprite_animation("Attack_2")
 		elif !sprites.animation == "Attack_1":
@@ -31,7 +31,7 @@ func perform_special_ability() -> void:
 		enemy_paths.append(enemy.get_path())
 		
 	for enemy_index in enemys_hit_by_ability.size():
-		if ckeck_for_targetability(enemy_paths[enemy_index]):
+		if is_focused_enemy_viable(enemy_paths[enemy_index]):
 			teleport_in_front_of_enemy(enemys_hit_by_ability[enemy_index].position)
 			perform_ability_damage(enemys_hit_by_ability[enemy_index])
 			yield(get_tree().create_timer(0.5), "timeout")

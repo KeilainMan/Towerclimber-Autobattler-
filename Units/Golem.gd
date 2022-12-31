@@ -12,7 +12,7 @@ func _ready():
 
 
 func perform_attack() -> void:
-	if ckeck_for_targetability(focused_enemy):
+	if is_focused_enemy_viable(focused_enemy):
 		if sprites.animation == "Attack_1":
 			sprites.frame = 0
 		elif !sprites.animation == "Attack_1":
