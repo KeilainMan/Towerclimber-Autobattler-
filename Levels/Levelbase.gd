@@ -194,9 +194,9 @@ func _on_StartGameButton_pressed() -> void:
 	# sends all units the their corresponding enemys
 func update_enemy_teams() -> void:
 	for player_unit in player_team:
-		player_unit.gather_enemy_team(all_enemys)
+		player_unit.set_current_enemy_team(all_enemys)
 	for enemy_unit in all_enemys:
-		enemy_unit.gather_enemy_team(player_team)
+		enemy_unit.set_current_enemy_team(player_team)
 
 
 	# activates battleprocess in units
