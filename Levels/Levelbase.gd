@@ -61,7 +61,6 @@ func instance_level_number_x(level: int) -> void:
 
 
 func _on_level_instanced():
-	print("instanced")
 	_move_enemy_nodes_into_the_right_place()
 	_gather_all_information()
 
@@ -69,7 +68,6 @@ func _on_level_instanced():
 func _move_enemy_nodes_into_the_right_place() -> void:
 	var enemy_node: Node = get_node("TileMap").get_node("Enemys")
 	for child in enemy_node.get_children():
-		print(child, " ", enemy_node)
 		enemy_node.remove_child(child)
 		units_node.add_child(child)
 		child.set_owner(units_node)
@@ -223,16 +221,6 @@ func on_game_over(looser: String) -> void:
 		spawn_player_lost_screen()
 	elif looser == "ENEMY":
 		pass
-
-
-	# sets process of all units false and releases them (queues free)
-#func disable_and_release_all_units() -> void:
-#	if !player_team.empty():
-#		for unit in player_team:
-#			unit.set_state(UnitState.CELEBRATING)
-#	if !all_enemys.empty():
-#		for unit in all_enemys:
-#			unit.set_state(UnitState.CELEBRATING)
 
 
 	# instances a screen that shows, that the player lost, the players rewards and stats?
