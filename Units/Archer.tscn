@@ -194,7 +194,6 @@ resource_local_to_scene = true
 script = ExtResource( 3 )
 attack_speed_modifier = 5.0
 attack_damage_modifier = 3.0
-buff_time = 2
 
 [node name="CharacterAnimations" parent="." index="0"]
 position = Vector2( 3, -12 )
