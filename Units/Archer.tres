@@ -13,6 +13,6 @@ attack_range = 150
 attack_speed = 0.8
 movement_speed = 50
 armor = 1
-starting_mana = 59
+starting_mana = 20
 maximum_mana = 60
 traits = [ "Archer", "Elves" ]

@@ -7,6 +7,7 @@ class_name Levelbase
 onready var selectioninterface: Node = get_node("CanvasLayer/Selectioninterface")
 onready var enemy_node: Node = null
 onready var tiles: Node = null
+onready var units_node: Node = get_node("Units")
 
 
 #Packed Scenes
@@ -46,6 +47,7 @@ func _ready() -> void:
 	Signals.connect("I_am_hovered", self, "_on_tile_hovered")
 	Signals.connect("I_was_selected_for_an_action", self, "_on_tile_is_selected_for_an_action")
 	Signals.connect("I_died", self, "_on_unit_died")
+	Signals.connect("already_died_please_remove", self, "_on_unit_died_and_wants_to_be_removed")
 	Signals.connect("level_instanced", self, "_on_level_instanced")
 	connect("game_over", self, "on_game_over")
 
@@ -59,7 +61,19 @@ func instance_level_number_x(level: int) -> void:
 
 
 func _on_level_instanced():
+	print("instanced")
+	_move_enemy_nodes_into_the_right_place()
 	_gather_all_information()
+
+
+func _move_enemy_nodes_into_the_right_place() -> void:
+	var enemy_node: Node = get_node("TileMap").get_node("Enemys")
+	for child in enemy_node.get_children():
+		print(child, " ", enemy_node)
+		enemy_node.remove_child(child)
+		units_node.add_child(child)
+		child.set_owner(units_node)
+	enemy_node.queue_free()
 
 
 func _gather_all_information():
@@ -75,8 +89,7 @@ func _gather_all_tile_information() -> void:
 
 
 func _gather_all_enemy_information() -> void:
-	enemy_node = get_node("TileMap").get_node("Enemys")
-	for child in enemy_node.get_children():
+	for child in units_node.get_children():
 		all_enemys.append(child)
 		child.set_turn_info("ENEMY")
 
@@ -94,7 +107,7 @@ func instance_a_unit_for_visualisation(unit_scene: PackedScene) -> void:
 	new_unit.position = get_global_mouse_position()
 	new_unit.scale *= Vector2(3,3)
 	new_unit.set_spawn_environment(1)
-	add_child(new_unit)
+	units_node.add_child(new_unit)
 
 
 	#connects to a individual tile scene, positions chosen unit on a grid tile
@@ -205,7 +218,7 @@ func delete_all_tiles() -> void:
 # GAME ENDING FUNCTIONS
 	# if the battle is finished, this function organizes the finish
 func on_game_over(looser: String) -> void:
-	disable_and_release_all_units()
+	#disable_and_release_all_units()
 	if looser == "PLAYER":
 		spawn_player_lost_screen()
 	elif looser == "ENEMY":
@@ -213,15 +226,13 @@ func on_game_over(looser: String) -> void:
 
 
 	# sets process of all units false and releases them (queues free)
-func disable_and_release_all_units() -> void:
-	if !player_team.empty():
-		for unit in player_team:
-			unit.set_process(false)
-			unit.queue_free()
-	if !all_enemys.empty():
-		for unit in all_enemys:
-			unit.set_process(false)
-			unit.queue_free()
+#func disable_and_release_all_units() -> void:
+#	if !player_team.empty():
+#		for unit in player_team:
+#			unit.set_state(UnitState.CELEBRATING)
+#	if !all_enemys.empty():
+#		for unit in all_enemys:
+#			unit.set_state(UnitState.CELEBRATING)
 
 
 	# instances a screen that shows, that the player lost, the players rewards and stats?
@@ -281,6 +292,15 @@ func delete_boarded_unit(unit: Unitbase) -> void:
 	# previously fielded tiles are restored
 func readd_boarded_field(unit_position: Vector2) -> void:
 	fielded_tiles.erase(unit_position)
+
+
+func _on_unit_died_and_wants_to_be_removed(unit: Unitbase) -> void:
+	print("child_count: ", get_child_count())
+	for child in units_node.get_children():
+		print(child, unit)
+		if child == unit:
+			print(child, "gets removed")
+			units_node.remove_child(child)
 
 
 func _input(event):

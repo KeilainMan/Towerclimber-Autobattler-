@@ -231,6 +231,7 @@ resource_local_to_scene = true
 
 [node name="KinematicBody2D" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+ability_damage = 50
 
 [node name="CharacterAnimations" parent="." index="0"]
 frames = SubResource( 98 )

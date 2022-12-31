@@ -13,3 +13,5 @@ signal Player_deleted_a_unit(unit) # from gameboard to partybuffmanager
 signal update_player_buff_hud(buffnumbers) # from gameboard to partybuffmanager
 
 signal I_died(object) # from unitbase to gameboard
+signal already_died_please_remove(object) #connects to the level and will remove 
+		# the this child when it died
