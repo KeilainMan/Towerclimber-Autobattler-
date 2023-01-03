@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/props_tree_couple.png-8902a51bdabe40cc91468ae02619384e.stex"
+path="res://.import/_Idle.png-18f84edea13360e903e72b583188a76f.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Testassets Knight/sprites/spritesheet/props_tree_couple.png"
-dest_files=[ "res://.import/props_tree_couple.png-8902a51bdabe40cc91468ae02619384e.stex" ]
+source_file="res://assets/_Idle.png"
+dest_files=[ "res://.import/_Idle.png-18f84edea13360e903e72b583188a76f.stex" ]
 
 [params]
 

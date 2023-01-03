@@ -1,0 +1,36 @@
+[gd_scene format=2]
+
+[node name="ShopDisplay" type="CenterContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="FullDivider" type="VBoxContainer" parent="."]
+margin_left = 860.0
+margin_top = 429.0
+margin_right = 1060.0
+margin_bottom = 651.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="TraitDivider" type="HBoxContainer" parent="FullDivider"]
+margin_right = 200.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="TextureRect" type="TextureRect" parent="FullDivider"]
+margin_top = 4.0
+margin_right = 200.0
+margin_bottom = 204.0
+rect_min_size = Vector2( 200, 200 )
+expand = true
+stretch_mode = 4
+
+[node name="CostLabel" type="Label" parent="FullDivider"]
+margin_top = 208.0
+margin_right = 200.0
+margin_bottom = 222.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+align = 1
+valign = 1

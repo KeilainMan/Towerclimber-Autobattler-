@@ -4,6 +4,7 @@
 [ext_resource path="res://Units/Enemys/Kobold_Chief.gd" type="Script" id=2]
 [ext_resource path="res://assets/unitblank/blank_128x.png" type="Texture" id=3]
 
+
 [sub_resource type="AtlasTexture" id=74]
 flags = 4
 atlas = ExtResource( 3 )

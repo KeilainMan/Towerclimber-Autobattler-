@@ -6,6 +6,8 @@
 script = ExtResource( 1 )
 character_name = ""
 character_discription = ""
+gold_cost = 0
+tier = 0
 health = 250
 damage = 35
 ranged = true
@@ -16,3 +18,8 @@ armor = 1
 starting_mana = 20
 maximum_mana = 60
 traits = [ "Archer", "Elves" ]
+ability_name = ""
+ability_discription = ""
+ability_damage = 0
+ability_range = 0
+ability_number_of_targets = 0
