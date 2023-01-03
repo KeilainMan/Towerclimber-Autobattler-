@@ -49,6 +49,9 @@ func _reroll_shop() -> void:
 		_free_current_shop_displays()
 		_roll_five_shop_units_to_display()
 		Signals.emit_signal("gold_spend", 2)
+	else:
+		print("Not enough gold to reroll!")
+
 
 func _free_current_shop_displays() -> void:
 	for child in unit_container.get_children():

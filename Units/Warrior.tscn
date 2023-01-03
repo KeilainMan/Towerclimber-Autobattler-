@@ -235,6 +235,7 @@ ability_damage = 50
 
 [node name="CharacterAnimations" parent="." index="0"]
 frames = SubResource( 98 )
+frame = 6
 
 [node name="Charactercollision" parent="." index="1"]
 position = Vector2( -1, 16 )
