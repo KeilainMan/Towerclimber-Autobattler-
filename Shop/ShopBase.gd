@@ -18,7 +18,7 @@ var current_gold: int = 0
 func _ready():
 	randomize()
 	_roll_five_shop_units_to_display()
-	var current_gold = RunManager.get_gold()
+	#var current_gold = RunManager.get_gold()
 	_update_gold_label(current_gold)
 	
 	Signals.connect("gold_changed", self, "_on_gold_changed")

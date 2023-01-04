@@ -61,11 +61,10 @@ config/icon="res://icon.png"
 
 [autoload]
 
-RunManager="*res://GlobalsScripts/RunManager.gd"
 Signals="*res://GlobalsScripts/Signals.gd"
+LevelConstructorOrganizer="*res://Levels/LevelConstructorOrganizer.gd"
 LevelConstructor11To20="*res://Levels/11-20/LevelConstructor11To20.gd"
 LevelConstructor1To10="*res://Levels/1-10/LevelConstructor1To10.gd"
-LevelConstructorOrganizer="*res://Levels/LevelConstructorOrganizer.gd"
 
 [display]
 
