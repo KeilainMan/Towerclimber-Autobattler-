@@ -178,11 +178,11 @@ func _physics_process(delta) -> void:
 
 
 			UnitState.MOVING:
-				if ckeck_for_targetability(focused_enemy) && !_focused_enemy_is_in_attack_range():
+				if is_focused_enemy_viable(focused_enemy) && !_focused_enemy_is_in_attack_range():
 					_perform_state_moving()
-				elif !ckeck_for_targetability(focused_enemy):
+				elif !is_focused_enemy_viable(focused_enemy):
 					set_state(UnitState.SEARCHING_NEXT_ENEMY_TO_ATTACK)
-				elif ckeck_for_targetability(focused_enemy) && _focused_enemy_is_in_attack_range():
+				elif is_focused_enemy_viable(focused_enemy) && _focused_enemy_is_in_attack_range():
 					set_state(UnitState.ATTACKING)
 				else:
 					_reset_figure()
@@ -221,7 +221,7 @@ func _perform_state_attacking():
 	_set_all_already_states_false()
 	is_already_attacking = true
 	_stop_navigationtimer()
-	if ckeck_for_targetability(focused_enemy):
+	if is_focused_enemy_viable(focused_enemy):
 		_attack_enemy()
 	else:
 		_reset_figure()
@@ -287,7 +287,7 @@ func _on_NavigationAgent2D_velocity_computed(safe_velocity) -> void:
 	
 
 func _on_NavTimer_timeout() -> void:
-	if ckeck_for_targetability(focused_enemy):
+	if is_focused_enemy_viable(focused_enemy):
 		navagent.set_target_location(focused_enemy.global_position)
 	if !navagent.is_target_reachable():
 		set_state(UnitState.INACTIVE)
@@ -356,11 +356,11 @@ func _on_focused_enemy_set():
 
 
 func _attack_enemy() -> void:
-	if ckeck_for_targetability(focused_enemy) && _focused_enemy_is_in_attack_range():
+	if is_focused_enemy_viable(focused_enemy) && _focused_enemy_is_in_attack_range():
 		perform_attack()
 		is_already_attacking = true
 		$AttackcooldownTimer.start()
-	elif ckeck_for_targetability(focused_enemy) && !_focused_enemy_is_in_attack_range():
+	elif is_focused_enemy_viable(focused_enemy) && !_focused_enemy_is_in_attack_range():
 		set_state(UnitState.MOVING)
 	else:
 		_reset_figure()
@@ -374,7 +374,7 @@ func _focused_enemy_is_in_attack_range() -> bool:
 
 
 func perform_attack() -> void:
-	if ckeck_for_targetability(focused_enemy) && _focused_enemy_is_in_attack_range():
+	if is_focused_enemy_viable(focused_enemy) && _focused_enemy_is_in_attack_range():
 			focused_enemy.receive_damage(damage)
 			get_mana()
 	else:
@@ -486,12 +486,32 @@ func _check_if_enemy_team_exists() -> bool:
 		return false
 	else:
 		return true
-	
 
-func ckeck_for_targetability(target: Unitbase) -> bool:
+
+func is_focused_enemy_viable(target: Unitbase) -> bool:
+	if check_for_viability(target):
+		if check_for_targetability(target):
+			return true
+		else: 
+			return false
+	else:
+		return false
+
+
+func check_for_viability(target: Unitbase) -> bool:
 	if is_instance_valid(target):
 		return true
 	else: return false
+
+
+func check_for_targetability(target: Unitbase) -> bool:
+	if target.has_method("get_targetability"):
+		if target.get_targetability():
+			return true
+		else:
+			return false
+	else:
+		return false
 
 
 func _reset_figure() -> void:
@@ -515,7 +535,7 @@ func _on_CharacterAnimations_animation_finished() -> void:
 		print(self, "Deathanimation finished")
 		Signals.emit_signal("already_died_please_remove", self)
 
-
+##################################################################
 # Optische Sachen
 func _play_sprite_animation(animation: String) -> void:
 	if animation == sprites.animation:
@@ -527,7 +547,7 @@ func _play_sprite_animation(animation: String) -> void:
 func _on_Unitbase_tree_exiting() -> void:
 	queue_free()
 
-
+###################################################################
 # Setter und Getter
 func set_state(new_state)-> void:
 	if new_state == state:
