@@ -167,6 +167,7 @@ script = ExtResource( 2 )
 [node name="CharacterAnimations" parent="." index="0"]
 position = Vector2( 0, 0 )
 frames = SubResource( 95 )
+frame = 2
 
 [node name="Charactercollision" parent="." index="1"]
 position = Vector2( 0, 8 )

@@ -13,7 +13,7 @@ onready var units_node: Node = get_node("Units")
 #Packed Scenes
 var errorsymbol: PackedScene = preload("res://effects/Errorsymbol/Errorsymbol.tscn")
 var player_lost_screen: PackedScene = preload("res://UIs/PlayerLooseScreen.tscn")
-
+var player_wins_screen: PackedScene = preload("res://UIs/PlayerWinsScreen.tscn")
 
 #PREPARATION PHASE VARIABLES
 
@@ -216,18 +216,21 @@ func delete_all_tiles() -> void:
 # GAME ENDING FUNCTIONS
 	# if the battle is finished, this function organizes the finish
 func on_game_over(looser: String) -> void:
-	#disable_and_release_all_units()
 	if looser == "PLAYER":
-		spawn_player_lost_screen()
+		_spawn_player_lost_screen()
 	elif looser == "ENEMY":
-		pass
+		_spawn_player_wins_screen()
 
 
 	# instances a screen that shows, that the player lost, the players rewards and stats?
-func spawn_player_lost_screen() -> void:
+func _spawn_player_lost_screen() -> void:
 	var new_loose_screen = player_lost_screen.instance()
 	$CanvasLayer.add_child(new_loose_screen)
 
+
+func _spawn_player_wins_screen() -> void:
+	var new_win_screen = player_wins_screen.instance()
+	$CanvasLayer.add_child(new_win_screen)
 
 # INPUTRELATED FUNCTIONS
 	
@@ -299,3 +302,9 @@ func _input(event):
 			elif a_placed_unit_was_clicked(event.position):
 				var clicked_unit = identify_unit_clicked(identify_tile_clicked(event.position))
 				delete_boarded_unit(clicked_unit)
+
+
+func _on_LevelBase_tree_exiting():
+	set_script(null)
+	queue_free()
+	
