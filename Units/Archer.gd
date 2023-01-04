@@ -16,7 +16,7 @@ func _ready():
 	_set_ability_buff_timer(buff_time)
 
 func perform_attack():
-	if ckeck_for_targetability(focused_enemy):
+	if is_focused_enemy_viable(focused_enemy):
 		if sprites.animation == "Attack_1":
 			sprites.frame = 0
 		elif !sprites.animation == "Attack_1":
