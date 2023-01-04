@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/golem.png-986ee5c1c8719ced9157024b44501978.stex"
+path="res://.import/blank_128.png-1b001db7665a1bcbd0180c0622a59f04.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Testassets Knight/sprites/characters/golem.png"
-dest_files=[ "res://.import/golem.png-986ee5c1c8719ced9157024b44501978.stex" ]
+source_file="res://assets/ShopPics/blank_128.png"
+dest_files=[ "res://.import/blank_128.png-1b001db7665a1bcbd0180c0622a59f04.stex" ]
 
 [params]
 

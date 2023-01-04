@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/hero-w-shadow.png-cbae7c5b7672f92a6f45c1f96fd11fb9.stex"
+path="res://.import/Warrior.png-ed046f679cbe62d74cf8fb49cd48c091.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Testassets Knight/sprites/characters/hero-w-shadow.png"
-dest_files=[ "res://.import/hero-w-shadow.png-cbae7c5b7672f92a6f45c1f96fd11fb9.stex" ]
+source_file="res://assets/ShopPics/Warrior.png"
+dest_files=[ "res://.import/Warrior.png-ed046f679cbe62d74cf8fb49cd48c091.stex" ]
 
 [params]
 

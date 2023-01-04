@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/ui_coin.png-97061da37a83f087aaae4de0da1b2894.stex"
+path="res://.import/Archer.png-136a41dac99ae6bca4041bb1471c1c58.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Testassets Knight/sprites/spritesheet/ui_coin.png"
-dest_files=[ "res://.import/ui_coin.png-97061da37a83f087aaae4de0da1b2894.stex" ]
+source_file="res://assets/ShopPics/Archer.png"
+dest_files=[ "res://.import/Archer.png-136a41dac99ae6bca4041bb1471c1c58.stex" ]
 
 [params]
 

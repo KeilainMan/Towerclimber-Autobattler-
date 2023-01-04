@@ -4,12 +4,22 @@
 
 [resource]
 script = ExtResource( 1 )
+character_name = ""
+character_discription = ""
+gold_cost = 0
+tier = 0
 health = 0
-meele_damage = 0
-range_damage = 0
+damage = 0
 ranged = false
-attack_range = 0.0
+attack_range = 0
 attack_speed = 0.0
 movement_speed = 0
 armor = 0
-unit_value = 0
+starting_mana = 0
+maximum_mana = 100
+traits = [  ]
+ability_name = ""
+ability_discription = ""
+ability_damage = 0
+ability_range = 0
+ability_number_of_targets = 0

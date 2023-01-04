@@ -24,6 +24,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Levels/Levelbase.gd"
 }, {
+"base": "Node",
+"class": "Party_Manager",
+"language": "GDScript",
+"path": "res://Run/PartyManager.gd"
+}, {
+"base": "Resource",
+"class": "Shop_Unit_Stats",
+"language": "GDScript",
+"path": "res://Shop/UnitResources/ShopUnitStats.gd"
+}, {
 "base": "Resource",
 "class": "Unit_Stats",
 "language": "GDScript",
@@ -38,6 +48,8 @@ _global_script_class_icons={
 "GitAPI": "",
 "LevelBackgroundBase": "",
 "Levelbase": "",
+"Party_Manager": "",
+"Shop_Unit_Stats": "",
 "Unit_Stats": "",
 "Unitbase": ""
 }
@@ -49,12 +61,10 @@ config/icon="res://icon.png"
 
 [autoload]
 
-PartyManager="*res://GlobalsScripts/PartyManager.gd"
-RunManager="*res://GlobalsScripts/RunManager.gd"
 Signals="*res://GlobalsScripts/Signals.gd"
+LevelConstructorOrganizer="*res://Levels/LevelConstructorOrganizer.gd"
 LevelConstructor11To20="*res://Levels/11-20/LevelConstructor11To20.gd"
 LevelConstructor1To10="*res://Levels/1-10/LevelConstructor1To10.gd"
-LevelConstructorOrganizer="*res://Levels/LevelConstructorOrganizer.gd"
 
 [display]
 
