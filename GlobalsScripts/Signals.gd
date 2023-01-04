@@ -21,3 +21,6 @@ signal gold_spend(amount_spend) #emitted, wenn gold ausgegeben wird
 
 signal proceed_to_next_level() #emitted, wenn die Shop-Phase beendet ist
 signal I_need_a_party_to_display() #emitted, when the Selectioninterface is ready and needs a party
+
+signal the_player_won() #emitted from levelbase to runscene to signal the player won the level and proceeds into the shop
+signal after_level_proceedings_finished()# emitted from PlayerWinsScreen to proceed to next level

@@ -18,6 +18,7 @@ func _ready() -> void:
 
 	Signals.connect("proceed_to_next_level", self, "_on_proceed_to_next_level")
 	Signals.connect("gold_spend", self, "_on_gold_spend")
+	Signals.connect("after_level_proceedings_finished", self, "_on_after_level_proceedings_finished")
 
 
 func _instance_shop() -> void:
@@ -40,8 +41,9 @@ func _update_current_party() -> void:
 
 
 func _free_current_level() -> void:
+	print(current_level)
 	if !current_level == null:
-		current_level.queue_free()
+		remove_child(current_level)
 
 
 func _free_current_shop() -> void:
@@ -69,7 +71,32 @@ func _increase_level() -> void:
 
 func increase_gold(amount: int) -> void:
 	current_gold += amount
+	print(current_gold, amount)
 	Signals.emit_signal("gold_changed", current_gold)
+
+
+func _on_after_level_proceedings_finished(game_end_screen) -> void:
+	print("level finished")
+	var last_level: int = get_level()
+	_free_game_end_screen(game_end_screen)
+	_instance_shop()
+	_reward_player(last_level)
+	
+	
+
+
+func _reward_player(level_number: int) -> void:
+	var gold_reward: int = _calculate_gold_reward(level_number)
+	increase_gold(gold_reward)
+
+
+func _calculate_gold_reward(level_number: int) -> int:
+	var gold_1: int = clamp(level_number, 3, 20)
+	return gold_1
+
+
+func _free_game_end_screen(game_end_screen) -> void:
+	game_end_screen.queue_free()
 
 
 func _on_gold_spend(amount: int) -> void:
