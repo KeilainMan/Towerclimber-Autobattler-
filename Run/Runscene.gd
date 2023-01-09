@@ -14,7 +14,7 @@ var level: int = 0 setget , get_level
 
 func _ready() -> void:
 	_instance_shop()
-	set_gold(3)
+	set_gold(10)
 
 	Signals.connect("proceed_to_next_level", self, "_on_proceed_to_next_level")
 	Signals.connect("gold_spend", self, "_on_gold_spend")
@@ -41,7 +41,6 @@ func _update_current_party() -> void:
 
 
 func _free_current_level() -> void:
-	print(current_level)
 	if !current_level == null:
 		remove_child(current_level)
 
@@ -71,20 +70,16 @@ func _increase_level() -> void:
 
 func increase_gold(amount: int) -> void:
 	current_gold += amount
-	print(current_gold, amount)
 	Signals.emit_signal("gold_changed", current_gold)
 
 
 func _on_after_level_proceedings_finished(game_end_screen) -> void:
-	print("level finished")
 	var last_level: int = get_level()
 	_free_game_end_screen(game_end_screen)
 	_instance_shop()
 	_reward_player(last_level)
 	
 	
-
-
 func _reward_player(level_number: int) -> void:
 	var gold_reward: int = _calculate_gold_reward(level_number)
 	increase_gold(gold_reward)
