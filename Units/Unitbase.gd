@@ -155,7 +155,7 @@ func _set_mana_and_manabar() -> void:
 
 
 func _physics_process(delta) -> void:
-	line_2d.global_position = Vector2.ZERO
+	line_2d.position = Vector2.ZERO
 	if not is_placed:
 		return
 	else:
@@ -532,7 +532,6 @@ func deactivate_unit() -> void:
 
 func _on_CharacterAnimations_animation_finished() -> void:
 	if sprites.animation == "Death":
-		print(self, "Deathanimation finished")
 		Signals.emit_signal("already_died_please_remove", self)
 
 ##################################################################

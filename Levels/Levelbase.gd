@@ -48,7 +48,7 @@ func _ready() -> void:
 	Signals.connect("I_was_selected_for_an_action", self, "_on_tile_is_selected_for_an_action")
 	Signals.connect("I_died", self, "_on_unit_died")
 	Signals.connect("already_died_please_remove", self, "_on_unit_died_and_wants_to_be_removed")
-	Signals.connect("level_instanced", self, "_on_level_instanced")
+	Signals.connect("level_instanced",self, "_on_level_instanced", [],  4)
 	connect("game_over", self, "on_game_over")
 
 
@@ -286,11 +286,8 @@ func readd_boarded_field(unit_position: Vector2) -> void:
 
 
 func _on_unit_died_and_wants_to_be_removed(unit: Unitbase) -> void:
-	print("child_count: ", get_child_count())
 	for child in units_node.get_children():
-		print(child, unit)
 		if child == unit:
-			print(child, "gets removed")
 			units_node.remove_child(child)
 
 
@@ -305,6 +302,6 @@ func _input(event):
 
 
 func _on_LevelBase_tree_exiting():
-	set_script(null)
+	#set_script(null)
 	queue_free()
 	

@@ -177,7 +177,6 @@ script = ExtResource( 7 )
 position = Vector2( 4, -21 )
 frames = SubResource( 51 )
 animation = "Idle"
-frame = 2
 speed_scale = 2.0
 playing = true
 
@@ -210,8 +209,9 @@ shape = SubResource( 78 )
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 path_desired_distance = 5.0
-target_desired_distance = 25.0
+target_desired_distance = 30.0
 avoidance_enabled = true
+radius = 50.0
 max_speed = 100.0
 
 [node name="NavTimer" type="Timer" parent="."]

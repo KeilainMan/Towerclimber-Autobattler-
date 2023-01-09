@@ -1,8 +1,8 @@
 extends Control
 
-onready var warrior_scene = preload("res://Units/Warrior.tscn")
-onready var archer_scene = preload("res://Units/Archer.tscn")
-onready var golem_scene = preload("res://Units/Golem.tscn")
+onready var warrior_scene = preload("res://Units/Allies/Warrior/Warrior.tscn")
+onready var archer_scene = preload("res://Units/Allies/Archer/Archer.tscn")
+onready var golem_scene = preload("res://Units/Allies/Golem/Golem.tscn")
 onready var unit_array = [warrior_scene, archer_scene, golem_scene]
 
 
